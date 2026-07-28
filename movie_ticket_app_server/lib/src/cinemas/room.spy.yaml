@@ -1,0 +1,10 @@
+class: Room
+
+table: rooms
+
+fields:
+  cinemaId: int, relation(name=cinema_rooms, parent=cinemas)
+  name: String
+  roomType: String
+  seats: List<Seat>?, relation(name=room_seats)
+  showtimes: List<Showtime>?, relation(name=room_showtimes)

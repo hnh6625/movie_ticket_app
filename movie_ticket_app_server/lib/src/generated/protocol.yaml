@@ -1,0 +1,25 @@
+emailIdp:
+  - login:
+  - startRegistration:
+  - verifyRegistrationCode:
+  - finishRegistration:
+  - startPasswordReset:
+  - verifyPasswordResetCode:
+  - finishPasswordReset:
+  - hasAccount:
+refreshJwtTokens:
+  - refreshAccessToken:
+cinema:
+  - getAll:
+  - getRoomWithSeats:
+concession:
+  - getAll:
+greeting:
+  - hello:
+movie:
+  - getAll:
+  - getById:
+showtime:
+  - getByCinemaAndMovie:
+  - getSeats:
+  - holdSeats:

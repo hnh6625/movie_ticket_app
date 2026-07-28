@@ -1,0 +1,9 @@
+class: Concession
+
+table: concessions
+
+fields:
+  name: String
+  description: String
+  imageUrl: String
+  price: double

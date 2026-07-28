@@ -1,0 +1,10 @@
+class: ShowtimeSeat
+
+table: showtime_seats
+
+fields:
+  showtimeId: int, relation(name=showtime_seats, parent=showtimes)
+  seatId: int, relation(name=seat_showtime_seats, parent=seats)
+  status: String
+  heldByUserId: int?
+  holdExpiredAt: DateTime?

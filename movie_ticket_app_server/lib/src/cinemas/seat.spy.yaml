@@ -1,0 +1,10 @@
+class: Seat
+
+table: seats
+
+fields:
+  roomId: int, relation(name=room_seats, parent=rooms)
+  rowLabel: String
+  seatNumber: int
+  seatType: String
+  showtimeSeats: List<ShowtimeSeat>?, relation(name=seat_showtime_seats)

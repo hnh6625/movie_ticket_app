@@ -1,0 +1,10 @@
+class: Showtime
+
+table: showtimes
+
+fields:
+  movieId: int, relation(name=movie_showtimes, parent=movies)
+  roomId: int, relation(name=room_showtimes, parent=rooms)
+  startTime: DateTime
+  basePrice: double
+  showtimeSeats: List<ShowtimeSeat>?, relation(name=showtime_seats)

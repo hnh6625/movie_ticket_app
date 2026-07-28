@@ -1,0 +1,16 @@
+class: Movie
+
+table: movies
+
+fields:
+  title: String
+  description: String
+  posterUrl: String
+  trailerYoutubeId: String
+  genre: String
+  durationMinutes: int
+  releaseDate: DateTime
+  status: String
+  avgRating: double
+  createdAt: DateTime
+  showtimes: List<Showtime>?, relation(name=movie_showtimes)

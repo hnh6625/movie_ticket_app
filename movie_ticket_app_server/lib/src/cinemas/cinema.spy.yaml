@@ -1,0 +1,10 @@
+class: Cinema
+
+table: cinemas
+
+fields:
+  name: String
+  address: String
+  latitude: double
+  longitude: double
+  rooms: List<Room>?, relation(name=cinema_rooms)
