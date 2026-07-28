@@ -22,26 +22,32 @@ import 'cinemas/seat.dart' as _i7;
 import 'concessions/concession.dart' as _i8;
 import 'greetings/greeting.dart' as _i9;
 import 'movies/movie.dart' as _i10;
-import 'showtimes/showtime.dart' as _i11;
-import 'showtimes/showtime_seat.dart' as _i12;
+import 'reviews/review.dart' as _i11;
+import 'showtimes/showtime.dart' as _i12;
+import 'showtimes/showtime_seat.dart' as _i13;
+import 'users/user_profile.dart' as _i14;
 import 'package:movie_ticket_app_server/src/generated/cinemas/cinema.dart'
-    as _i13;
-import 'package:movie_ticket_app_server/src/generated/concessions/concession.dart'
-    as _i14;
-import 'package:movie_ticket_app_server/src/generated/movies/movie.dart'
     as _i15;
-import 'package:movie_ticket_app_server/src/generated/showtimes/showtime.dart'
+import 'package:movie_ticket_app_server/src/generated/concessions/concession.dart'
     as _i16;
-import 'package:movie_ticket_app_server/src/generated/showtimes/showtime_seat.dart'
+import 'package:movie_ticket_app_server/src/generated/movies/movie.dart'
     as _i17;
+import 'package:movie_ticket_app_server/src/generated/reviews/review.dart'
+    as _i18;
+import 'package:movie_ticket_app_server/src/generated/showtimes/showtime.dart'
+    as _i19;
+import 'package:movie_ticket_app_server/src/generated/showtimes/showtime_seat.dart'
+    as _i20;
 export 'cinemas/cinema.dart';
 export 'cinemas/room.dart';
 export 'cinemas/seat.dart';
 export 'concessions/concession.dart';
 export 'greetings/greeting.dart';
 export 'movies/movie.dart';
+export 'reviews/review.dart';
 export 'showtimes/showtime.dart';
 export 'showtimes/showtime_seat.dart';
+export 'users/user_profile.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
   Protocol._();
@@ -251,6 +257,96 @@ class Protocol extends _i1.SerializationManagerServer {
           type: 'btree',
           isUnique: true,
           isPrimary: true,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
+      name: 'reviews',
+      dartName: 'Review',
+      schema: 'public',
+      module: 'movie_ticket_app',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'reviews_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'movieId',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'userIdentifier',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'rating',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'comment',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'createdAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [
+        _i2.ForeignKeyDefinition(
+          constraintName: 'reviews_fk_0',
+          columns: ['movieId'],
+          referenceTable: 'movies',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.noAction,
+          matchType: null,
+        ),
+      ],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'reviews_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'review_movie_user_unique_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'movieId',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'userIdentifier',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
         ),
       ],
       managed: true,
@@ -543,6 +639,87 @@ class Protocol extends _i1.SerializationManagerServer {
       ],
       managed: true,
     ),
+    _i2.TableDefinition(
+      name: 'user_profiles',
+      dartName: 'UserProfile',
+      schema: 'public',
+      module: 'movie_ticket_app',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'user_profiles_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'userIdentifier',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'name',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'phone',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'avatarUrl',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'role',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'createdAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'user_profiles_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'user_profile_identifier_unique_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'userIdentifier',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
     ..._i3.Protocol.targetTableDefinitions,
     ..._i4.Protocol.targetTableDefinitions,
     ..._i2.Protocol.targetTableDefinitions,
@@ -593,11 +770,17 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i10.Movie) {
       return _i10.Movie.fromJson(data) as T;
     }
-    if (t == _i11.Showtime) {
-      return _i11.Showtime.fromJson(data) as T;
+    if (t == _i11.Review) {
+      return _i11.Review.fromJson(data) as T;
     }
-    if (t == _i12.ShowtimeSeat) {
-      return _i12.ShowtimeSeat.fromJson(data) as T;
+    if (t == _i12.Showtime) {
+      return _i12.Showtime.fromJson(data) as T;
+    }
+    if (t == _i13.ShowtimeSeat) {
+      return _i13.ShowtimeSeat.fromJson(data) as T;
+    }
+    if (t == _i14.UserProfile) {
+      return _i14.UserProfile.fromJson(data) as T;
     }
     if (t == _i1.getType<_i5.Cinema?>()) {
       return (data != null ? _i5.Cinema.fromJson(data) : null) as T;
@@ -617,11 +800,17 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i10.Movie?>()) {
       return (data != null ? _i10.Movie.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i11.Showtime?>()) {
-      return (data != null ? _i11.Showtime.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i11.Review?>()) {
+      return (data != null ? _i11.Review.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i12.ShowtimeSeat?>()) {
-      return (data != null ? _i12.ShowtimeSeat.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i12.Showtime?>()) {
+      return (data != null ? _i12.Showtime.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i13.ShowtimeSeat?>()) {
+      return (data != null ? _i13.ShowtimeSeat.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i14.UserProfile?>()) {
+      return (data != null ? _i14.UserProfile.fromJson(data) : null) as T;
     }
     if (t == List<_i6.Room>) {
       return (data as List).map((e) => deserialize<_i6.Room>(e)).toList() as T;
@@ -641,51 +830,65 @@ class Protocol extends _i1.SerializationManagerServer {
               : null)
           as T;
     }
-    if (t == List<_i11.Showtime>) {
-      return (data as List).map((e) => deserialize<_i11.Showtime>(e)).toList()
+    if (t == List<_i12.Showtime>) {
+      return (data as List).map((e) => deserialize<_i12.Showtime>(e)).toList()
           as T;
     }
-    if (t == _i1.getType<List<_i11.Showtime>?>()) {
+    if (t == _i1.getType<List<_i12.Showtime>?>()) {
       return (data != null
               ? (data as List)
-                    .map((e) => deserialize<_i11.Showtime>(e))
+                    .map((e) => deserialize<_i12.Showtime>(e))
                     .toList()
               : null)
           as T;
     }
-    if (t == List<_i12.ShowtimeSeat>) {
+    if (t == List<_i13.ShowtimeSeat>) {
       return (data as List)
-              .map((e) => deserialize<_i12.ShowtimeSeat>(e))
+              .map((e) => deserialize<_i13.ShowtimeSeat>(e))
               .toList()
           as T;
     }
-    if (t == _i1.getType<List<_i12.ShowtimeSeat>?>()) {
+    if (t == _i1.getType<List<_i13.ShowtimeSeat>?>()) {
       return (data != null
               ? (data as List)
-                    .map((e) => deserialize<_i12.ShowtimeSeat>(e))
+                    .map((e) => deserialize<_i13.ShowtimeSeat>(e))
                     .toList()
               : null)
           as T;
     }
-    if (t == List<_i13.Cinema>) {
-      return (data as List).map((e) => deserialize<_i13.Cinema>(e)).toList()
+    if (t == List<_i11.Review>) {
+      return (data as List).map((e) => deserialize<_i11.Review>(e)).toList()
           as T;
     }
-    if (t == List<_i14.Concession>) {
-      return (data as List).map((e) => deserialize<_i14.Concession>(e)).toList()
+    if (t == _i1.getType<List<_i11.Review>?>()) {
+      return (data != null
+              ? (data as List).map((e) => deserialize<_i11.Review>(e)).toList()
+              : null)
           as T;
     }
-    if (t == List<_i15.Movie>) {
-      return (data as List).map((e) => deserialize<_i15.Movie>(e)).toList()
+    if (t == List<_i15.Cinema>) {
+      return (data as List).map((e) => deserialize<_i15.Cinema>(e)).toList()
           as T;
     }
-    if (t == List<_i16.Showtime>) {
-      return (data as List).map((e) => deserialize<_i16.Showtime>(e)).toList()
+    if (t == List<_i16.Concession>) {
+      return (data as List).map((e) => deserialize<_i16.Concession>(e)).toList()
           as T;
     }
-    if (t == List<_i17.ShowtimeSeat>) {
+    if (t == List<_i17.Movie>) {
+      return (data as List).map((e) => deserialize<_i17.Movie>(e)).toList()
+          as T;
+    }
+    if (t == List<_i18.Review>) {
+      return (data as List).map((e) => deserialize<_i18.Review>(e)).toList()
+          as T;
+    }
+    if (t == List<_i19.Showtime>) {
+      return (data as List).map((e) => deserialize<_i19.Showtime>(e)).toList()
+          as T;
+    }
+    if (t == List<_i20.ShowtimeSeat>) {
       return (data as List)
-              .map((e) => deserialize<_i17.ShowtimeSeat>(e))
+              .map((e) => deserialize<_i20.ShowtimeSeat>(e))
               .toList()
           as T;
     }
@@ -712,8 +915,10 @@ class Protocol extends _i1.SerializationManagerServer {
       _i8.Concession => 'Concession',
       _i9.Greeting => 'Greeting',
       _i10.Movie => 'Movie',
-      _i11.Showtime => 'Showtime',
-      _i12.ShowtimeSeat => 'ShowtimeSeat',
+      _i11.Review => 'Review',
+      _i12.Showtime => 'Showtime',
+      _i13.ShowtimeSeat => 'ShowtimeSeat',
+      _i14.UserProfile => 'UserProfile',
       _ => null,
     };
   }
@@ -743,10 +948,14 @@ class Protocol extends _i1.SerializationManagerServer {
         return 'Greeting';
       case _i10.Movie():
         return 'Movie';
-      case _i11.Showtime():
+      case _i11.Review():
+        return 'Review';
+      case _i12.Showtime():
         return 'Showtime';
-      case _i12.ShowtimeSeat():
+      case _i13.ShowtimeSeat():
         return 'ShowtimeSeat';
+      case _i14.UserProfile():
+        return 'UserProfile';
     }
     className = _i2.Protocol().getClassNameForObject(data);
     if (className != null) {
@@ -787,11 +996,17 @@ class Protocol extends _i1.SerializationManagerServer {
     if (dataClassName == 'Movie') {
       return deserialize<_i10.Movie>(data['data']);
     }
+    if (dataClassName == 'Review') {
+      return deserialize<_i11.Review>(data['data']);
+    }
     if (dataClassName == 'Showtime') {
-      return deserialize<_i11.Showtime>(data['data']);
+      return deserialize<_i12.Showtime>(data['data']);
     }
     if (dataClassName == 'ShowtimeSeat') {
-      return deserialize<_i12.ShowtimeSeat>(data['data']);
+      return deserialize<_i13.ShowtimeSeat>(data['data']);
+    }
+    if (dataClassName == 'UserProfile') {
+      return deserialize<_i14.UserProfile>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
@@ -839,10 +1054,14 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i8.Concession.t;
       case _i10.Movie:
         return _i10.Movie.t;
-      case _i11.Showtime:
-        return _i11.Showtime.t;
-      case _i12.ShowtimeSeat:
-        return _i12.ShowtimeSeat.t;
+      case _i11.Review:
+        return _i11.Review.t;
+      case _i12.Showtime:
+        return _i12.Showtime.t;
+      case _i13.ShowtimeSeat:
+        return _i13.ShowtimeSeat.t;
+      case _i14.UserProfile:
+        return _i14.UserProfile.t;
     }
     return null;
   }

@@ -17,11 +17,13 @@ import '../cinemas/cinema_endpoint.dart' as _i4;
 import '../concessions/concession_endpoint.dart' as _i5;
 import '../greetings/greeting_endpoint.dart' as _i6;
 import '../movies/movie_endpoint.dart' as _i7;
-import '../showtimes/showtime_endpoint.dart' as _i8;
+import '../reviews/review_endpoint.dart' as _i8;
+import '../showtimes/showtime_endpoint.dart' as _i9;
+import '../users/user_profile_endpoint.dart' as _i10;
 import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
-    as _i9;
+    as _i11;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
-    as _i10;
+    as _i12;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -63,10 +65,22 @@ class Endpoints extends _i1.EndpointDispatch {
           'movie',
           null,
         ),
-      'showtime': _i8.ShowtimeEndpoint()
+      'review': _i8.ReviewEndpoint()
+        ..initialize(
+          server,
+          'review',
+          null,
+        ),
+      'showtime': _i9.ShowtimeEndpoint()
         ..initialize(
           server,
           'showtime',
+          null,
+        ),
+      'userProfile': _i10.UserProfileEndpoint()
+        ..initialize(
+          server,
+          'userProfile',
           null,
         ),
     };
@@ -393,6 +407,60 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['review'] = _i1.EndpointConnector(
+      name: 'review',
+      endpoint: endpoints['review']!,
+      methodConnectors: {
+        'create': _i1.MethodConnector(
+          name: 'create',
+          params: {
+            'movieId': _i1.ParameterDescription(
+              name: 'movieId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'rating': _i1.ParameterDescription(
+              name: 'rating',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'comment': _i1.ParameterDescription(
+              name: 'comment',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['review'] as _i8.ReviewEndpoint).create(
+                session,
+                movieId: params['movieId'],
+                rating: params['rating'],
+                comment: params['comment'],
+              ),
+        ),
+        'getByMovie': _i1.MethodConnector(
+          name: 'getByMovie',
+          params: {
+            'movieId': _i1.ParameterDescription(
+              name: 'movieId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['review'] as _i8.ReviewEndpoint).getByMovie(
+                session,
+                params['movieId'],
+              ),
+        ),
+      },
+    );
     connectors['showtime'] = _i1.EndpointConnector(
       name: 'showtime',
       endpoint: endpoints['showtime']!,
@@ -415,7 +483,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['showtime'] as _i8.ShowtimeEndpoint)
+              ) async => (endpoints['showtime'] as _i9.ShowtimeEndpoint)
                   .getByCinemaAndMovie(
                     session,
                     movieId: params['movieId'],
@@ -436,7 +504,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['showtime'] as _i8.ShowtimeEndpoint).getSeats(
+                  (endpoints['showtime'] as _i9.ShowtimeEndpoint).getSeats(
                     session,
                     params['showtimeId'],
                   ),
@@ -465,7 +533,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['showtime'] as _i8.ShowtimeEndpoint).holdSeats(
+                  (endpoints['showtime'] as _i9.ShowtimeEndpoint).holdSeats(
                     session,
                     showtimeId: params['showtimeId'],
                     seatIds: params['seatIds'],
@@ -474,9 +542,56 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
-    modules['serverpod_auth_idp'] = _i9.Endpoints()
+    connectors['userProfile'] = _i1.EndpointConnector(
+      name: 'userProfile',
+      endpoint: endpoints['userProfile']!,
+      methodConnectors: {
+        'getMe': _i1.MethodConnector(
+          name: 'getMe',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['userProfile'] as _i10.UserProfileEndpoint)
+                  .getMe(session),
+        ),
+        'updateMe': _i1.MethodConnector(
+          name: 'updateMe',
+          params: {
+            'name': _i1.ParameterDescription(
+              name: 'name',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'phone': _i1.ParameterDescription(
+              name: 'phone',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+            'avatarUrl': _i1.ParameterDescription(
+              name: 'avatarUrl',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['userProfile'] as _i10.UserProfileEndpoint)
+                  .updateMe(
+                    session,
+                    name: params['name'],
+                    phone: params['phone'],
+                    avatarUrl: params['avatarUrl'],
+                  ),
+        ),
+      },
+    );
+    modules['serverpod_auth_idp'] = _i11.Endpoints()
       ..initializeEndpoints(server);
-    modules['serverpod_auth_core'] = _i10.Endpoints()
+    modules['serverpod_auth_core'] = _i12.Endpoints()
       ..initializeEndpoints(server);
   }
 }

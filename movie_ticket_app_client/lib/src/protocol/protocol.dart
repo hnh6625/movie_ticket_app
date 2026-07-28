@@ -17,29 +17,35 @@ import 'cinemas/seat.dart' as _i4;
 import 'concessions/concession.dart' as _i5;
 import 'greetings/greeting.dart' as _i6;
 import 'movies/movie.dart' as _i7;
-import 'showtimes/showtime.dart' as _i8;
-import 'showtimes/showtime_seat.dart' as _i9;
+import 'reviews/review.dart' as _i8;
+import 'showtimes/showtime.dart' as _i9;
+import 'showtimes/showtime_seat.dart' as _i10;
+import 'users/user_profile.dart' as _i11;
 import 'package:movie_ticket_app_client/src/protocol/cinemas/cinema.dart'
-    as _i10;
+    as _i12;
 import 'package:movie_ticket_app_client/src/protocol/concessions/concession.dart'
-    as _i11;
-import 'package:movie_ticket_app_client/src/protocol/movies/movie.dart' as _i12;
-import 'package:movie_ticket_app_client/src/protocol/showtimes/showtime.dart'
     as _i13;
-import 'package:movie_ticket_app_client/src/protocol/showtimes/showtime_seat.dart'
-    as _i14;
-import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
+import 'package:movie_ticket_app_client/src/protocol/movies/movie.dart' as _i14;
+import 'package:movie_ticket_app_client/src/protocol/reviews/review.dart'
     as _i15;
-import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
+import 'package:movie_ticket_app_client/src/protocol/showtimes/showtime.dart'
     as _i16;
+import 'package:movie_ticket_app_client/src/protocol/showtimes/showtime_seat.dart'
+    as _i17;
+import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
+    as _i18;
+import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
+    as _i19;
 export 'cinemas/cinema.dart';
 export 'cinemas/room.dart';
 export 'cinemas/seat.dart';
 export 'concessions/concession.dart';
 export 'greetings/greeting.dart';
 export 'movies/movie.dart';
+export 'reviews/review.dart';
 export 'showtimes/showtime.dart';
 export 'showtimes/showtime_seat.dart';
+export 'users/user_profile.dart';
 export 'client.dart';
 
 class Protocol extends _i1.SerializationManager {
@@ -94,11 +100,17 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i7.Movie) {
       return _i7.Movie.fromJson(data) as T;
     }
-    if (t == _i8.Showtime) {
-      return _i8.Showtime.fromJson(data) as T;
+    if (t == _i8.Review) {
+      return _i8.Review.fromJson(data) as T;
     }
-    if (t == _i9.ShowtimeSeat) {
-      return _i9.ShowtimeSeat.fromJson(data) as T;
+    if (t == _i9.Showtime) {
+      return _i9.Showtime.fromJson(data) as T;
+    }
+    if (t == _i10.ShowtimeSeat) {
+      return _i10.ShowtimeSeat.fromJson(data) as T;
+    }
+    if (t == _i11.UserProfile) {
+      return _i11.UserProfile.fromJson(data) as T;
     }
     if (t == _i1.getType<_i2.Cinema?>()) {
       return (data != null ? _i2.Cinema.fromJson(data) : null) as T;
@@ -118,11 +130,17 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i1.getType<_i7.Movie?>()) {
       return (data != null ? _i7.Movie.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i8.Showtime?>()) {
-      return (data != null ? _i8.Showtime.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i8.Review?>()) {
+      return (data != null ? _i8.Review.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i9.ShowtimeSeat?>()) {
-      return (data != null ? _i9.ShowtimeSeat.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i9.Showtime?>()) {
+      return (data != null ? _i9.Showtime.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i10.ShowtimeSeat?>()) {
+      return (data != null ? _i10.ShowtimeSeat.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i11.UserProfile?>()) {
+      return (data != null ? _i11.UserProfile.fromJson(data) : null) as T;
     }
     if (t == List<_i3.Room>) {
       return (data as List).map((e) => deserialize<_i3.Room>(e)).toList() as T;
@@ -142,49 +160,63 @@ class Protocol extends _i1.SerializationManager {
               : null)
           as T;
     }
-    if (t == List<_i8.Showtime>) {
-      return (data as List).map((e) => deserialize<_i8.Showtime>(e)).toList()
+    if (t == List<_i9.Showtime>) {
+      return (data as List).map((e) => deserialize<_i9.Showtime>(e)).toList()
           as T;
     }
-    if (t == _i1.getType<List<_i8.Showtime>?>()) {
+    if (t == _i1.getType<List<_i9.Showtime>?>()) {
       return (data != null
-              ? (data as List).map((e) => deserialize<_i8.Showtime>(e)).toList()
+              ? (data as List).map((e) => deserialize<_i9.Showtime>(e)).toList()
               : null)
           as T;
     }
-    if (t == List<_i9.ShowtimeSeat>) {
+    if (t == List<_i10.ShowtimeSeat>) {
       return (data as List)
-              .map((e) => deserialize<_i9.ShowtimeSeat>(e))
+              .map((e) => deserialize<_i10.ShowtimeSeat>(e))
               .toList()
           as T;
     }
-    if (t == _i1.getType<List<_i9.ShowtimeSeat>?>()) {
+    if (t == _i1.getType<List<_i10.ShowtimeSeat>?>()) {
       return (data != null
               ? (data as List)
-                    .map((e) => deserialize<_i9.ShowtimeSeat>(e))
+                    .map((e) => deserialize<_i10.ShowtimeSeat>(e))
                     .toList()
               : null)
           as T;
     }
-    if (t == List<_i10.Cinema>) {
-      return (data as List).map((e) => deserialize<_i10.Cinema>(e)).toList()
+    if (t == List<_i8.Review>) {
+      return (data as List).map((e) => deserialize<_i8.Review>(e)).toList()
           as T;
     }
-    if (t == List<_i11.Concession>) {
-      return (data as List).map((e) => deserialize<_i11.Concession>(e)).toList()
+    if (t == _i1.getType<List<_i8.Review>?>()) {
+      return (data != null
+              ? (data as List).map((e) => deserialize<_i8.Review>(e)).toList()
+              : null)
           as T;
     }
-    if (t == List<_i12.Movie>) {
-      return (data as List).map((e) => deserialize<_i12.Movie>(e)).toList()
+    if (t == List<_i12.Cinema>) {
+      return (data as List).map((e) => deserialize<_i12.Cinema>(e)).toList()
           as T;
     }
-    if (t == List<_i13.Showtime>) {
-      return (data as List).map((e) => deserialize<_i13.Showtime>(e)).toList()
+    if (t == List<_i13.Concession>) {
+      return (data as List).map((e) => deserialize<_i13.Concession>(e)).toList()
           as T;
     }
-    if (t == List<_i14.ShowtimeSeat>) {
+    if (t == List<_i14.Movie>) {
+      return (data as List).map((e) => deserialize<_i14.Movie>(e)).toList()
+          as T;
+    }
+    if (t == List<_i15.Review>) {
+      return (data as List).map((e) => deserialize<_i15.Review>(e)).toList()
+          as T;
+    }
+    if (t == List<_i16.Showtime>) {
+      return (data as List).map((e) => deserialize<_i16.Showtime>(e)).toList()
+          as T;
+    }
+    if (t == List<_i17.ShowtimeSeat>) {
       return (data as List)
-              .map((e) => deserialize<_i14.ShowtimeSeat>(e))
+              .map((e) => deserialize<_i17.ShowtimeSeat>(e))
               .toList()
           as T;
     }
@@ -192,10 +224,10 @@ class Protocol extends _i1.SerializationManager {
       return (data as List).map((e) => deserialize<int>(e)).toList() as T;
     }
     try {
-      return _i15.Protocol().deserialize<T>(data, t);
+      return _i18.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     try {
-      return _i16.Protocol().deserialize<T>(data, t);
+      return _i19.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -208,8 +240,10 @@ class Protocol extends _i1.SerializationManager {
       _i5.Concession => 'Concession',
       _i6.Greeting => 'Greeting',
       _i7.Movie => 'Movie',
-      _i8.Showtime => 'Showtime',
-      _i9.ShowtimeSeat => 'ShowtimeSeat',
+      _i8.Review => 'Review',
+      _i9.Showtime => 'Showtime',
+      _i10.ShowtimeSeat => 'ShowtimeSeat',
+      _i11.UserProfile => 'UserProfile',
       _ => null,
     };
   }
@@ -239,16 +273,20 @@ class Protocol extends _i1.SerializationManager {
         return 'Greeting';
       case _i7.Movie():
         return 'Movie';
-      case _i8.Showtime():
+      case _i8.Review():
+        return 'Review';
+      case _i9.Showtime():
         return 'Showtime';
-      case _i9.ShowtimeSeat():
+      case _i10.ShowtimeSeat():
         return 'ShowtimeSeat';
+      case _i11.UserProfile():
+        return 'UserProfile';
     }
-    className = _i15.Protocol().getClassNameForObject(data);
+    className = _i18.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth_idp.$className';
     }
-    className = _i16.Protocol().getClassNameForObject(data);
+    className = _i19.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth_core.$className';
     }
@@ -279,19 +317,25 @@ class Protocol extends _i1.SerializationManager {
     if (dataClassName == 'Movie') {
       return deserialize<_i7.Movie>(data['data']);
     }
+    if (dataClassName == 'Review') {
+      return deserialize<_i8.Review>(data['data']);
+    }
     if (dataClassName == 'Showtime') {
-      return deserialize<_i8.Showtime>(data['data']);
+      return deserialize<_i9.Showtime>(data['data']);
     }
     if (dataClassName == 'ShowtimeSeat') {
-      return deserialize<_i9.ShowtimeSeat>(data['data']);
+      return deserialize<_i10.ShowtimeSeat>(data['data']);
+    }
+    if (dataClassName == 'UserProfile') {
+      return deserialize<_i11.UserProfile>(data['data']);
     }
     if (dataClassName.startsWith('serverpod_auth_idp.')) {
       data['className'] = dataClassName.substring(19);
-      return _i15.Protocol().deserializeByClassName(data);
+      return _i18.Protocol().deserializeByClassName(data);
     }
     if (dataClassName.startsWith('serverpod_auth_core.')) {
       data['className'] = dataClassName.substring(20);
-      return _i16.Protocol().deserializeByClassName(data);
+      return _i19.Protocol().deserializeByClassName(data);
     }
     return super.deserializeByClassName(data);
   }
@@ -306,10 +350,10 @@ class Protocol extends _i1.SerializationManager {
       return null;
     }
     try {
-      return _i15.Protocol().mapRecordToJson(record);
+      return _i18.Protocol().mapRecordToJson(record);
     } catch (_) {}
     try {
-      return _i16.Protocol().mapRecordToJson(record);
+      return _i19.Protocol().mapRecordToJson(record);
     } catch (_) {}
     throw Exception('Unsupported record type ${record.runtimeType}');
   }

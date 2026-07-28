@@ -24,11 +24,15 @@ import 'package:movie_ticket_app_client/src/protocol/concessions/concession.dart
 import 'package:movie_ticket_app_client/src/protocol/greetings/greeting.dart'
     as _i8;
 import 'package:movie_ticket_app_client/src/protocol/movies/movie.dart' as _i9;
-import 'package:movie_ticket_app_client/src/protocol/showtimes/showtime.dart'
+import 'package:movie_ticket_app_client/src/protocol/reviews/review.dart'
     as _i10;
-import 'package:movie_ticket_app_client/src/protocol/showtimes/showtime_seat.dart'
+import 'package:movie_ticket_app_client/src/protocol/showtimes/showtime.dart'
     as _i11;
-import 'protocol.dart' as _i12;
+import 'package:movie_ticket_app_client/src/protocol/showtimes/showtime_seat.dart'
+    as _i12;
+import 'package:movie_ticket_app_client/src/protocol/users/user_profile.dart'
+    as _i13;
+import 'protocol.dart' as _i14;
 
 /// {@category Endpoint}
 class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
@@ -327,16 +331,45 @@ class EndpointMovie extends _i2.EndpointRef {
 }
 
 /// {@category Endpoint}
+class EndpointReview extends _i2.EndpointRef {
+  EndpointReview(_i2.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'review';
+
+  _i3.Future<_i10.Review> create({
+    required int movieId,
+    required int rating,
+    required String comment,
+  }) => caller.callServerEndpoint<_i10.Review>(
+    'review',
+    'create',
+    {
+      'movieId': movieId,
+      'rating': rating,
+      'comment': comment,
+    },
+  );
+
+  _i3.Future<List<_i10.Review>> getByMovie(int movieId) =>
+      caller.callServerEndpoint<List<_i10.Review>>(
+        'review',
+        'getByMovie',
+        {'movieId': movieId},
+      );
+}
+
+/// {@category Endpoint}
 class EndpointShowtime extends _i2.EndpointRef {
   EndpointShowtime(_i2.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'showtime';
 
-  _i3.Future<List<_i10.Showtime>> getByCinemaAndMovie({
+  _i3.Future<List<_i11.Showtime>> getByCinemaAndMovie({
     required int movieId,
     required DateTime date,
-  }) => caller.callServerEndpoint<List<_i10.Showtime>>(
+  }) => caller.callServerEndpoint<List<_i11.Showtime>>(
     'showtime',
     'getByCinemaAndMovie',
     {
@@ -345,8 +378,8 @@ class EndpointShowtime extends _i2.EndpointRef {
     },
   );
 
-  _i3.Future<List<_i11.ShowtimeSeat>> getSeats(int showtimeId) =>
-      caller.callServerEndpoint<List<_i11.ShowtimeSeat>>(
+  _i3.Future<List<_i12.ShowtimeSeat>> getSeats(int showtimeId) =>
+      caller.callServerEndpoint<List<_i12.ShowtimeSeat>>(
         'showtime',
         'getSeats',
         {'showtimeId': showtimeId},
@@ -363,6 +396,35 @@ class EndpointShowtime extends _i2.EndpointRef {
       'showtimeId': showtimeId,
       'seatIds': seatIds,
       'userId': userId,
+    },
+  );
+}
+
+/// {@category Endpoint}
+class EndpointUserProfile extends _i2.EndpointRef {
+  EndpointUserProfile(_i2.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'userProfile';
+
+  _i3.Future<_i13.UserProfile?> getMe() =>
+      caller.callServerEndpoint<_i13.UserProfile?>(
+        'userProfile',
+        'getMe',
+        {},
+      );
+
+  _i3.Future<_i13.UserProfile> updateMe({
+    required String name,
+    String? phone,
+    String? avatarUrl,
+  }) => caller.callServerEndpoint<_i13.UserProfile>(
+    'userProfile',
+    'updateMe',
+    {
+      'name': name,
+      'phone': phone,
+      'avatarUrl': avatarUrl,
     },
   );
 }
@@ -398,7 +460,7 @@ class Client extends _i2.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i12.Protocol(),
+         _i14.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,
@@ -413,7 +475,9 @@ class Client extends _i2.ServerpodClientShared {
     concession = EndpointConcession(this);
     greeting = EndpointGreeting(this);
     movie = EndpointMovie(this);
+    review = EndpointReview(this);
     showtime = EndpointShowtime(this);
+    userProfile = EndpointUserProfile(this);
     modules = Modules(this);
   }
 
@@ -429,7 +493,11 @@ class Client extends _i2.ServerpodClientShared {
 
   late final EndpointMovie movie;
 
+  late final EndpointReview review;
+
   late final EndpointShowtime showtime;
+
+  late final EndpointUserProfile userProfile;
 
   late final Modules modules;
 
@@ -441,7 +509,9 @@ class Client extends _i2.ServerpodClientShared {
     'concession': concession,
     'greeting': greeting,
     'movie': movie,
+    'review': review,
     'showtime': showtime,
+    'userProfile': userProfile,
   };
 
   @override

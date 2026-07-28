@@ -1,0 +1,14 @@
+class: Review
+
+table: reviews
+
+fields:
+  movieId: int, relation(name=movie_reviews, parent=movies)
+  userIdentifier: String
+  rating: int
+  comment: String
+  createdAt: DateTime
+indexes:
+  review_movie_user_unique_idx:
+    fields: movieId, userIdentifier
+    unique: true

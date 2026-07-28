@@ -13,7 +13,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../showtimes/showtime.dart' as _i2;
-import 'package:movie_ticket_app_server/src/generated/protocol.dart' as _i3;
+import '../reviews/review.dart' as _i3;
+import 'package:movie_ticket_app_server/src/generated/protocol.dart' as _i4;
 
 abstract class Movie implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
   Movie._({
@@ -29,6 +30,7 @@ abstract class Movie implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     required this.avgRating,
     required this.createdAt,
     this.showtimes,
+    this.reviews,
   });
 
   factory Movie({
@@ -44,6 +46,7 @@ abstract class Movie implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     required double avgRating,
     required DateTime createdAt,
     List<_i2.Showtime>? showtimes,
+    List<_i3.Review>? reviews,
   }) = _MovieImpl;
 
   factory Movie.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -65,8 +68,13 @@ abstract class Movie implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       ),
       showtimes: jsonSerialization['showtimes'] == null
           ? null
-          : _i3.Protocol().deserialize<List<_i2.Showtime>>(
+          : _i4.Protocol().deserialize<List<_i2.Showtime>>(
               jsonSerialization['showtimes'],
+            ),
+      reviews: jsonSerialization['reviews'] == null
+          ? null
+          : _i4.Protocol().deserialize<List<_i3.Review>>(
+              jsonSerialization['reviews'],
             ),
     );
   }
@@ -100,6 +108,8 @@ abstract class Movie implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
 
   List<_i2.Showtime>? showtimes;
 
+  List<_i3.Review>? reviews;
+
   @override
   _i1.Table<int?> get table => t;
 
@@ -119,6 +129,7 @@ abstract class Movie implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     double? avgRating,
     DateTime? createdAt,
     List<_i2.Showtime>? showtimes,
+    List<_i3.Review>? reviews,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -137,6 +148,8 @@ abstract class Movie implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       'createdAt': createdAt.toJson(),
       if (showtimes != null)
         'showtimes': showtimes?.toJson(valueToJson: (v) => v.toJson()),
+      if (reviews != null)
+        'reviews': reviews?.toJson(valueToJson: (v) => v.toJson()),
     };
   }
 
@@ -159,11 +172,19 @@ abstract class Movie implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
         'showtimes': showtimes?.toJson(
           valueToJson: (v) => v.toJsonForProtocol(),
         ),
+      if (reviews != null)
+        'reviews': reviews?.toJson(valueToJson: (v) => v.toJsonForProtocol()),
     };
   }
 
-  static MovieInclude include({_i2.ShowtimeIncludeList? showtimes}) {
-    return MovieInclude._(showtimes: showtimes);
+  static MovieInclude include({
+    _i2.ShowtimeIncludeList? showtimes,
+    _i3.ReviewIncludeList? reviews,
+  }) {
+    return MovieInclude._(
+      showtimes: showtimes,
+      reviews: reviews,
+    );
   }
 
   static MovieIncludeList includeList({
@@ -208,6 +229,7 @@ class _MovieImpl extends Movie {
     required double avgRating,
     required DateTime createdAt,
     List<_i2.Showtime>? showtimes,
+    List<_i3.Review>? reviews,
   }) : super._(
          id: id,
          title: title,
@@ -221,6 +243,7 @@ class _MovieImpl extends Movie {
          avgRating: avgRating,
          createdAt: createdAt,
          showtimes: showtimes,
+         reviews: reviews,
        );
 
   /// Returns a shallow copy of this [Movie]
@@ -240,6 +263,7 @@ class _MovieImpl extends Movie {
     double? avgRating,
     DateTime? createdAt,
     Object? showtimes = _Undefined,
+    Object? reviews = _Undefined,
   }) {
     return Movie(
       id: id is int? ? id : this.id,
@@ -256,6 +280,9 @@ class _MovieImpl extends Movie {
       showtimes: showtimes is List<_i2.Showtime>?
           ? showtimes
           : this.showtimes?.map((e0) => e0.copyWith()).toList(),
+      reviews: reviews is List<_i3.Review>?
+          ? reviews
+          : this.reviews?.map((e0) => e0.copyWith()).toList(),
     );
   }
 }
@@ -388,6 +415,10 @@ class MovieTable extends _i1.Table<int?> {
 
   _i1.ManyRelation<_i2.ShowtimeTable>? _showtimes;
 
+  _i3.ReviewTable? ___reviews;
+
+  _i1.ManyRelation<_i3.ReviewTable>? _reviews;
+
   _i2.ShowtimeTable get __showtimes {
     if (___showtimes != null) return ___showtimes!;
     ___showtimes = _i1.createRelationTable(
@@ -399,6 +430,19 @@ class MovieTable extends _i1.Table<int?> {
           _i2.ShowtimeTable(tableRelation: foreignTableRelation),
     );
     return ___showtimes!;
+  }
+
+  _i3.ReviewTable get __reviews {
+    if (___reviews != null) return ___reviews!;
+    ___reviews = _i1.createRelationTable(
+      relationFieldName: '__reviews',
+      field: Movie.t.id,
+      foreignField: _i3.Review.t.movieId,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i3.ReviewTable(tableRelation: foreignTableRelation),
+    );
+    return ___reviews!;
   }
 
   _i1.ManyRelation<_i2.ShowtimeTable> get showtimes {
@@ -418,6 +462,25 @@ class MovieTable extends _i1.Table<int?> {
       ),
     );
     return _showtimes!;
+  }
+
+  _i1.ManyRelation<_i3.ReviewTable> get reviews {
+    if (_reviews != null) return _reviews!;
+    var relationTable = _i1.createRelationTable(
+      relationFieldName: 'reviews',
+      field: Movie.t.id,
+      foreignField: _i3.Review.t.movieId,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i3.ReviewTable(tableRelation: foreignTableRelation),
+    );
+    _reviews = _i1.ManyRelation<_i3.ReviewTable>(
+      tableWithRelations: relationTable,
+      table: _i3.ReviewTable(
+        tableRelation: relationTable.tableRelation!.lastRelation,
+      ),
+    );
+    return _reviews!;
   }
 
   @override
@@ -440,19 +503,31 @@ class MovieTable extends _i1.Table<int?> {
     if (relationField == 'showtimes') {
       return __showtimes;
     }
+    if (relationField == 'reviews') {
+      return __reviews;
+    }
     return null;
   }
 }
 
 class MovieInclude extends _i1.IncludeObject {
-  MovieInclude._({_i2.ShowtimeIncludeList? showtimes}) {
+  MovieInclude._({
+    _i2.ShowtimeIncludeList? showtimes,
+    _i3.ReviewIncludeList? reviews,
+  }) {
     _showtimes = showtimes;
+    _reviews = reviews;
   }
 
   _i2.ShowtimeIncludeList? _showtimes;
 
+  _i3.ReviewIncludeList? _reviews;
+
   @override
-  Map<String, _i1.Include?> get includes => {'showtimes': _showtimes};
+  Map<String, _i1.Include?> get includes => {
+    'showtimes': _showtimes,
+    'reviews': _reviews,
+  };
 
   @override
   _i1.Table<int?> get table => Movie.t;
@@ -800,6 +875,29 @@ class MovieAttachRepository {
       transaction: transaction,
     );
   }
+
+  /// Creates a relation between this [Movie] and the given [Review]s
+  /// by setting each [Review]'s foreign key `movieId` to refer to this [Movie].
+  Future<void> reviews(
+    _i1.DatabaseSession session,
+    Movie movie,
+    List<_i3.Review> review, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (review.any((e) => e.id == null)) {
+      throw ArgumentError.notNull('review.id');
+    }
+    if (movie.id == null) {
+      throw ArgumentError.notNull('movie.id');
+    }
+
+    var $review = review.map((e) => e.copyWith(movieId: movie.id)).toList();
+    await session.db.update<_i3.Review>(
+      $review,
+      columns: [_i3.Review.t.movieId],
+      transaction: transaction,
+    );
+  }
 }
 
 class MovieAttachRowRepository {
@@ -824,6 +922,29 @@ class MovieAttachRowRepository {
     await session.db.updateRow<_i2.Showtime>(
       $showtime,
       columns: [_i2.Showtime.t.movieId],
+      transaction: transaction,
+    );
+  }
+
+  /// Creates a relation between this [Movie] and the given [Review]
+  /// by setting the [Review]'s foreign key `movieId` to refer to this [Movie].
+  Future<void> reviews(
+    _i1.DatabaseSession session,
+    Movie movie,
+    _i3.Review review, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (review.id == null) {
+      throw ArgumentError.notNull('review.id');
+    }
+    if (movie.id == null) {
+      throw ArgumentError.notNull('movie.id');
+    }
+
+    var $review = review.copyWith(movieId: movie.id);
+    await session.db.updateRow<_i3.Review>(
+      $review,
+      columns: [_i3.Review.t.movieId],
       transaction: transaction,
     );
   }

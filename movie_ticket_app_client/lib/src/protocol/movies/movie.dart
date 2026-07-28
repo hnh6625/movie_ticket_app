@@ -12,7 +12,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import '../showtimes/showtime.dart' as _i2;
-import 'package:movie_ticket_app_client/src/protocol/protocol.dart' as _i3;
+import '../reviews/review.dart' as _i3;
+import 'package:movie_ticket_app_client/src/protocol/protocol.dart' as _i4;
 
 abstract class Movie implements _i1.SerializableModel {
   Movie._({
@@ -28,6 +29,7 @@ abstract class Movie implements _i1.SerializableModel {
     required this.avgRating,
     required this.createdAt,
     this.showtimes,
+    this.reviews,
   });
 
   factory Movie({
@@ -43,6 +45,7 @@ abstract class Movie implements _i1.SerializableModel {
     required double avgRating,
     required DateTime createdAt,
     List<_i2.Showtime>? showtimes,
+    List<_i3.Review>? reviews,
   }) = _MovieImpl;
 
   factory Movie.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -64,8 +67,13 @@ abstract class Movie implements _i1.SerializableModel {
       ),
       showtimes: jsonSerialization['showtimes'] == null
           ? null
-          : _i3.Protocol().deserialize<List<_i2.Showtime>>(
+          : _i4.Protocol().deserialize<List<_i2.Showtime>>(
               jsonSerialization['showtimes'],
+            ),
+      reviews: jsonSerialization['reviews'] == null
+          ? null
+          : _i4.Protocol().deserialize<List<_i3.Review>>(
+              jsonSerialization['reviews'],
             ),
     );
   }
@@ -97,6 +105,8 @@ abstract class Movie implements _i1.SerializableModel {
 
   List<_i2.Showtime>? showtimes;
 
+  List<_i3.Review>? reviews;
+
   /// Returns a shallow copy of this [Movie]
   /// with some or all fields replaced by the given arguments.
   @_i1.useResult
@@ -113,6 +123,7 @@ abstract class Movie implements _i1.SerializableModel {
     double? avgRating,
     DateTime? createdAt,
     List<_i2.Showtime>? showtimes,
+    List<_i3.Review>? reviews,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -131,6 +142,8 @@ abstract class Movie implements _i1.SerializableModel {
       'createdAt': createdAt.toJson(),
       if (showtimes != null)
         'showtimes': showtimes?.toJson(valueToJson: (v) => v.toJson()),
+      if (reviews != null)
+        'reviews': reviews?.toJson(valueToJson: (v) => v.toJson()),
     };
   }
 
@@ -156,6 +169,7 @@ class _MovieImpl extends Movie {
     required double avgRating,
     required DateTime createdAt,
     List<_i2.Showtime>? showtimes,
+    List<_i3.Review>? reviews,
   }) : super._(
          id: id,
          title: title,
@@ -169,6 +183,7 @@ class _MovieImpl extends Movie {
          avgRating: avgRating,
          createdAt: createdAt,
          showtimes: showtimes,
+         reviews: reviews,
        );
 
   /// Returns a shallow copy of this [Movie]
@@ -188,6 +203,7 @@ class _MovieImpl extends Movie {
     double? avgRating,
     DateTime? createdAt,
     Object? showtimes = _Undefined,
+    Object? reviews = _Undefined,
   }) {
     return Movie(
       id: id is int? ? id : this.id,
@@ -204,6 +220,9 @@ class _MovieImpl extends Movie {
       showtimes: showtimes is List<_i2.Showtime>?
           ? showtimes
           : this.showtimes?.map((e0) => e0.copyWith()).toList(),
+      reviews: reviews is List<_i3.Review>?
+          ? reviews
+          : this.reviews?.map((e0) => e0.copyWith()).toList(),
     );
   }
 }

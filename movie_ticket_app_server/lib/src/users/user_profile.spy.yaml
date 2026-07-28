@@ -1,0 +1,15 @@
+class: UserProfile
+
+table: user_profiles
+
+fields:
+  userIdentifier: String
+  name: String
+  phone: String?
+  avatarUrl: String?
+  role: String
+  createdAt: DateTime
+indexes:
+  user_profile_identifier_unique_idx:
+    fields: userIdentifier
+    unique: true

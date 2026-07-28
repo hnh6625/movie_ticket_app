@@ -19,7 +19,13 @@ greeting:
 movie:
   - getAll:
   - getById:
+review:
+  - create:
+  - getByMovie:
 showtime:
   - getByCinemaAndMovie:
   - getSeats:
   - holdSeats:
+userProfile:
+  - getMe:
+  - updateMe:

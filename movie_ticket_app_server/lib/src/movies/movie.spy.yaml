@@ -14,3 +14,4 @@ fields:
   avgRating: double
   createdAt: DateTime
   showtimes: List<Showtime>?, relation(name=movie_showtimes)
+  reviews: List<Review>?, relation(name=movie_reviews)
