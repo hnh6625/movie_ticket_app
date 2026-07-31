@@ -1,0 +1,8 @@
+class: OrderSeat
+
+table: order_seats
+
+fields:
+  orderId: int, relation(name=order_seats, parent=orders)
+  showtimeSeatId: int
+  price: double

@@ -8,3 +8,4 @@ fields:
   startTime: DateTime
   basePrice: double
   showtimeSeats: List<ShowtimeSeat>?, relation(name=showtime_seats)
+  orders: List<Order>?, relation(name=showtime_orders)

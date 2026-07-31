@@ -13,7 +13,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../showtimes/showtime_seat.dart' as _i2;
-import 'package:movie_ticket_app_server/src/generated/protocol.dart' as _i3;
+import '../orders/order.dart' as _i3;
+import 'package:movie_ticket_app_server/src/generated/protocol.dart' as _i4;
 
 abstract class Showtime
     implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
@@ -24,6 +25,7 @@ abstract class Showtime
     required this.startTime,
     required this.basePrice,
     this.showtimeSeats,
+    this.orders,
   });
 
   factory Showtime({
@@ -33,6 +35,7 @@ abstract class Showtime
     required DateTime startTime,
     required double basePrice,
     List<_i2.ShowtimeSeat>? showtimeSeats,
+    List<_i3.Order>? orders,
   }) = _ShowtimeImpl;
 
   factory Showtime.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -46,8 +49,13 @@ abstract class Showtime
       basePrice: (jsonSerialization['basePrice'] as num).toDouble(),
       showtimeSeats: jsonSerialization['showtimeSeats'] == null
           ? null
-          : _i3.Protocol().deserialize<List<_i2.ShowtimeSeat>>(
+          : _i4.Protocol().deserialize<List<_i2.ShowtimeSeat>>(
               jsonSerialization['showtimeSeats'],
+            ),
+      orders: jsonSerialization['orders'] == null
+          ? null
+          : _i4.Protocol().deserialize<List<_i3.Order>>(
+              jsonSerialization['orders'],
             ),
     );
   }
@@ -69,6 +77,8 @@ abstract class Showtime
 
   List<_i2.ShowtimeSeat>? showtimeSeats;
 
+  List<_i3.Order>? orders;
+
   @override
   _i1.Table<int?> get table => t;
 
@@ -82,6 +92,7 @@ abstract class Showtime
     DateTime? startTime,
     double? basePrice,
     List<_i2.ShowtimeSeat>? showtimeSeats,
+    List<_i3.Order>? orders,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -94,6 +105,8 @@ abstract class Showtime
       'basePrice': basePrice,
       if (showtimeSeats != null)
         'showtimeSeats': showtimeSeats?.toJson(valueToJson: (v) => v.toJson()),
+      if (orders != null)
+        'orders': orders?.toJson(valueToJson: (v) => v.toJson()),
     };
   }
 
@@ -110,11 +123,19 @@ abstract class Showtime
         'showtimeSeats': showtimeSeats?.toJson(
           valueToJson: (v) => v.toJsonForProtocol(),
         ),
+      if (orders != null)
+        'orders': orders?.toJson(valueToJson: (v) => v.toJsonForProtocol()),
     };
   }
 
-  static ShowtimeInclude include({_i2.ShowtimeSeatIncludeList? showtimeSeats}) {
-    return ShowtimeInclude._(showtimeSeats: showtimeSeats);
+  static ShowtimeInclude include({
+    _i2.ShowtimeSeatIncludeList? showtimeSeats,
+    _i3.OrderIncludeList? orders,
+  }) {
+    return ShowtimeInclude._(
+      showtimeSeats: showtimeSeats,
+      orders: orders,
+    );
   }
 
   static ShowtimeIncludeList includeList({
@@ -153,6 +174,7 @@ class _ShowtimeImpl extends Showtime {
     required DateTime startTime,
     required double basePrice,
     List<_i2.ShowtimeSeat>? showtimeSeats,
+    List<_i3.Order>? orders,
   }) : super._(
          id: id,
          movieId: movieId,
@@ -160,6 +182,7 @@ class _ShowtimeImpl extends Showtime {
          startTime: startTime,
          basePrice: basePrice,
          showtimeSeats: showtimeSeats,
+         orders: orders,
        );
 
   /// Returns a shallow copy of this [Showtime]
@@ -173,6 +196,7 @@ class _ShowtimeImpl extends Showtime {
     DateTime? startTime,
     double? basePrice,
     Object? showtimeSeats = _Undefined,
+    Object? orders = _Undefined,
   }) {
     return Showtime(
       id: id is int? ? id : this.id,
@@ -183,6 +207,9 @@ class _ShowtimeImpl extends Showtime {
       showtimeSeats: showtimeSeats is List<_i2.ShowtimeSeat>?
           ? showtimeSeats
           : this.showtimeSeats?.map((e0) => e0.copyWith()).toList(),
+      orders: orders is List<_i3.Order>?
+          ? orders
+          : this.orders?.map((e0) => e0.copyWith()).toList(),
     );
   }
 }
@@ -247,6 +274,10 @@ class ShowtimeTable extends _i1.Table<int?> {
 
   _i1.ManyRelation<_i2.ShowtimeSeatTable>? _showtimeSeats;
 
+  _i3.OrderTable? ___orders;
+
+  _i1.ManyRelation<_i3.OrderTable>? _orders;
+
   _i2.ShowtimeSeatTable get __showtimeSeats {
     if (___showtimeSeats != null) return ___showtimeSeats!;
     ___showtimeSeats = _i1.createRelationTable(
@@ -258,6 +289,19 @@ class ShowtimeTable extends _i1.Table<int?> {
           _i2.ShowtimeSeatTable(tableRelation: foreignTableRelation),
     );
     return ___showtimeSeats!;
+  }
+
+  _i3.OrderTable get __orders {
+    if (___orders != null) return ___orders!;
+    ___orders = _i1.createRelationTable(
+      relationFieldName: '__orders',
+      field: Showtime.t.id,
+      foreignField: _i3.Order.t.showtimeId,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i3.OrderTable(tableRelation: foreignTableRelation),
+    );
+    return ___orders!;
   }
 
   _i1.ManyRelation<_i2.ShowtimeSeatTable> get showtimeSeats {
@@ -279,6 +323,25 @@ class ShowtimeTable extends _i1.Table<int?> {
     return _showtimeSeats!;
   }
 
+  _i1.ManyRelation<_i3.OrderTable> get orders {
+    if (_orders != null) return _orders!;
+    var relationTable = _i1.createRelationTable(
+      relationFieldName: 'orders',
+      field: Showtime.t.id,
+      foreignField: _i3.Order.t.showtimeId,
+      tableRelation: tableRelation,
+      createTable: (foreignTableRelation) =>
+          _i3.OrderTable(tableRelation: foreignTableRelation),
+    );
+    _orders = _i1.ManyRelation<_i3.OrderTable>(
+      tableWithRelations: relationTable,
+      table: _i3.OrderTable(
+        tableRelation: relationTable.tableRelation!.lastRelation,
+      ),
+    );
+    return _orders!;
+  }
+
   @override
   List<_i1.Column> get columns => [
     id,
@@ -293,19 +356,31 @@ class ShowtimeTable extends _i1.Table<int?> {
     if (relationField == 'showtimeSeats') {
       return __showtimeSeats;
     }
+    if (relationField == 'orders') {
+      return __orders;
+    }
     return null;
   }
 }
 
 class ShowtimeInclude extends _i1.IncludeObject {
-  ShowtimeInclude._({_i2.ShowtimeSeatIncludeList? showtimeSeats}) {
+  ShowtimeInclude._({
+    _i2.ShowtimeSeatIncludeList? showtimeSeats,
+    _i3.OrderIncludeList? orders,
+  }) {
     _showtimeSeats = showtimeSeats;
+    _orders = orders;
   }
 
   _i2.ShowtimeSeatIncludeList? _showtimeSeats;
 
+  _i3.OrderIncludeList? _orders;
+
   @override
-  Map<String, _i1.Include?> get includes => {'showtimeSeats': _showtimeSeats};
+  Map<String, _i1.Include?> get includes => {
+    'showtimeSeats': _showtimeSeats,
+    'orders': _orders,
+  };
 
   @override
   _i1.Table<int?> get table => Showtime.t;
@@ -655,6 +730,29 @@ class ShowtimeAttachRepository {
       transaction: transaction,
     );
   }
+
+  /// Creates a relation between this [Showtime] and the given [Order]s
+  /// by setting each [Order]'s foreign key `showtimeId` to refer to this [Showtime].
+  Future<void> orders(
+    _i1.DatabaseSession session,
+    Showtime showtime,
+    List<_i3.Order> order, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (order.any((e) => e.id == null)) {
+      throw ArgumentError.notNull('order.id');
+    }
+    if (showtime.id == null) {
+      throw ArgumentError.notNull('showtime.id');
+    }
+
+    var $order = order.map((e) => e.copyWith(showtimeId: showtime.id)).toList();
+    await session.db.update<_i3.Order>(
+      $order,
+      columns: [_i3.Order.t.showtimeId],
+      transaction: transaction,
+    );
+  }
 }
 
 class ShowtimeAttachRowRepository {
@@ -679,6 +777,29 @@ class ShowtimeAttachRowRepository {
     await session.db.updateRow<_i2.ShowtimeSeat>(
       $showtimeSeat,
       columns: [_i2.ShowtimeSeat.t.showtimeId],
+      transaction: transaction,
+    );
+  }
+
+  /// Creates a relation between this [Showtime] and the given [Order]
+  /// by setting the [Order]'s foreign key `showtimeId` to refer to this [Showtime].
+  Future<void> orders(
+    _i1.DatabaseSession session,
+    Showtime showtime,
+    _i3.Order order, {
+    _i1.Transaction? transaction,
+  }) async {
+    if (order.id == null) {
+      throw ArgumentError.notNull('order.id');
+    }
+    if (showtime.id == null) {
+      throw ArgumentError.notNull('showtime.id');
+    }
+
+    var $order = order.copyWith(showtimeId: showtime.id);
+    await session.db.updateRow<_i3.Order>(
+      $order,
+      columns: [_i3.Order.t.showtimeId],
       transaction: transaction,
     );
   }

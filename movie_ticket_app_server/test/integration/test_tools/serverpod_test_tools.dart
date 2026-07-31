@@ -24,14 +24,17 @@ import 'package:movie_ticket_app_server/src/generated/concessions/concession.dar
 import 'package:movie_ticket_app_server/src/generated/greetings/greeting.dart'
     as _i8;
 import 'package:movie_ticket_app_server/src/generated/movies/movie.dart' as _i9;
-import 'package:movie_ticket_app_server/src/generated/reviews/review.dart'
-    as _i10;
-import 'package:movie_ticket_app_server/src/generated/showtimes/showtime.dart'
+import 'package:movie_ticket_app_server/src/generated/protocol.dart' as _i10;
+import 'package:movie_ticket_app_server/src/generated/orders/order.dart'
     as _i11;
-import 'package:movie_ticket_app_server/src/generated/showtimes/showtime_seat.dart'
+import 'package:movie_ticket_app_server/src/generated/reviews/review.dart'
     as _i12;
-import 'package:movie_ticket_app_server/src/generated/users/user_profile.dart'
+import 'package:movie_ticket_app_server/src/generated/showtimes/showtime.dart'
     as _i13;
+import 'package:movie_ticket_app_server/src/generated/showtimes/showtime_seat.dart'
+    as _i14;
+import 'package:movie_ticket_app_server/src/generated/users/user_profile.dart'
+    as _i15;
 import 'package:movie_ticket_app_server/src/generated/protocol.dart';
 import 'package:movie_ticket_app_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -158,6 +161,8 @@ class TestEndpoints {
 
   late final _MovieEndpoint movie;
 
+  late final _OrderEndpoint order;
+
   late final _ReviewEndpoint review;
 
   late final _ShowtimeEndpoint showtime;
@@ -193,6 +198,10 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     movie = _MovieEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    order = _OrderEndpoint(
       endpoints,
       serializationManager,
     );
@@ -757,6 +766,119 @@ class _MovieEndpoint {
   }
 }
 
+class _OrderEndpoint {
+  _OrderEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _i2.EndpointDispatch _endpointDispatch;
+
+  final _i2.SerializationManager _serializationManager;
+
+  _i3.Future<Map<String, dynamic>> create(
+    _i1.TestSessionBuilder sessionBuilder, {
+    required int showtimeId,
+    required List<int> showtimeSeatIds,
+    required Map<int, int> concessionQuantities,
+    required String paymentMethod,
+  }) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'order',
+            method: 'create',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'order',
+          methodName: 'create',
+          parameters: _i1.testObjectToJson({
+            'showtimeId': showtimeId,
+            'showtimeSeatIds': showtimeSeatIds,
+            'concessionQuantities': _i10.Protocol().mapContainerToJson(
+              concessionQuantities,
+            ),
+            'paymentMethod': paymentMethod,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<Map<String, dynamic>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<_i11.Order?> getById(
+    _i1.TestSessionBuilder sessionBuilder,
+    int id,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'order',
+            method: 'getById',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'order',
+          methodName: 'getById',
+          parameters: _i1.testObjectToJson({'id': id}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<_i11.Order?>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<List<_i11.Order>> getMyOrders(
+    _i1.TestSessionBuilder sessionBuilder,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'order',
+            method: 'getMyOrders',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'order',
+          methodName: 'getMyOrders',
+          parameters: _i1.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<List<_i11.Order>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
 class _ReviewEndpoint {
   _ReviewEndpoint(
     this._endpointDispatch,
@@ -767,7 +889,7 @@ class _ReviewEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i10.Review> create(
+  _i3.Future<_i12.Review> create(
     _i1.TestSessionBuilder sessionBuilder, {
     required int movieId,
     required int rating,
@@ -796,7 +918,7 @@ class _ReviewEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i10.Review>);
+                as _i3.Future<_i12.Review>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -804,7 +926,7 @@ class _ReviewEndpoint {
     });
   }
 
-  _i3.Future<List<_i10.Review>> getByMovie(
+  _i3.Future<List<_i12.Review>> getByMovie(
     _i1.TestSessionBuilder sessionBuilder,
     int movieId,
   ) async {
@@ -827,7 +949,7 @@ class _ReviewEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i10.Review>>);
+                as _i3.Future<List<_i12.Review>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -846,7 +968,7 @@ class _ShowtimeEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<List<_i11.Showtime>> getByCinemaAndMovie(
+  _i3.Future<List<_i13.Showtime>> getByCinemaAndMovie(
     _i1.TestSessionBuilder sessionBuilder, {
     required int movieId,
     required DateTime date,
@@ -873,7 +995,7 @@ class _ShowtimeEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i11.Showtime>>);
+                as _i3.Future<List<_i13.Showtime>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -881,7 +1003,7 @@ class _ShowtimeEndpoint {
     });
   }
 
-  _i3.Future<List<_i12.ShowtimeSeat>> getSeats(
+  _i3.Future<List<_i14.ShowtimeSeat>> getSeats(
     _i1.TestSessionBuilder sessionBuilder,
     int showtimeId,
   ) async {
@@ -904,7 +1026,7 @@ class _ShowtimeEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i12.ShowtimeSeat>>);
+                as _i3.Future<List<_i14.ShowtimeSeat>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -912,11 +1034,10 @@ class _ShowtimeEndpoint {
     });
   }
 
-  _i3.Future<bool> holdSeats(
+  _i3.Future<Map<String, dynamic>> holdSeats(
     _i1.TestSessionBuilder sessionBuilder, {
     required int showtimeId,
-    required List<int> seatIds,
-    required int userId,
+    required List<int> showtimeSeatIds,
   }) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -931,8 +1052,40 @@ class _ShowtimeEndpoint {
           methodName: 'holdSeats',
           parameters: _i1.testObjectToJson({
             'showtimeId': showtimeId,
-            'seatIds': seatIds,
-            'userId': userId,
+            'showtimeSeatIds': showtimeSeatIds,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<Map<String, dynamic>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<bool> releaseSeats(
+    _i1.TestSessionBuilder sessionBuilder, {
+    required List<int> showtimeSeatIds,
+  }) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'showtime',
+            method: 'releaseSeats',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'showtime',
+          methodName: 'releaseSeats',
+          parameters: _i1.testObjectToJson({
+            'showtimeSeatIds': showtimeSeatIds,
           }),
           serializationManager: _serializationManager,
         );
@@ -960,7 +1113,7 @@ class _UserProfileEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i13.UserProfile?> getMe(
+  _i3.Future<_i15.UserProfile?> getMe(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -982,7 +1135,7 @@ class _UserProfileEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i13.UserProfile?>);
+                as _i3.Future<_i15.UserProfile?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -990,7 +1143,7 @@ class _UserProfileEndpoint {
     });
   }
 
-  _i3.Future<_i13.UserProfile> updateMe(
+  _i3.Future<_i15.UserProfile> updateMe(
     _i1.TestSessionBuilder sessionBuilder, {
     required String name,
     String? phone,
@@ -1019,7 +1172,7 @@ class _UserProfileEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i13.UserProfile>);
+                as _i3.Future<_i15.UserProfile>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

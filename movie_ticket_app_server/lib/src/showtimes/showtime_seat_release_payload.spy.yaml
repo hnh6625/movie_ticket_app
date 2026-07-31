@@ -1,0 +1,4 @@
+class: ShowtimeSeatReleasePayload
+
+fields:
+  showtimeSeatId: int

@@ -1,0 +1,9 @@
+class: OrderConcession
+
+table: order_concessions
+
+fields:
+  orderId: int, relation(name=order_concessions, parent=orders)
+  concessionId: int
+  quantity: int
+  price: double

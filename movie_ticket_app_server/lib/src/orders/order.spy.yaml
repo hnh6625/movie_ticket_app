@@ -1,0 +1,14 @@
+class: Order
+
+table: orders
+
+fields:
+  userIdentifier: String
+  showtimeId: int, relation(name=showtime_orders, parent=showtimes)
+  totalPrice: double
+  status: String
+  paymentMethod: String
+  qrCodeData: String?
+  createdAt: DateTime
+  orderSeats: List<OrderSeat>?, relation(name=order_seats)
+  orderConcessions: List<OrderConcession>?, relation(name=order_concessions)

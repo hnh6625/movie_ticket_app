@@ -19,6 +19,10 @@ greeting:
 movie:
   - getAll:
   - getById:
+order:
+  - create:
+  - getById:
+  - getMyOrders:
 review:
   - create:
   - getByMovie:
@@ -26,6 +30,7 @@ showtime:
   - getByCinemaAndMovie:
   - getSeats:
   - holdSeats:
+  - releaseSeats:
 userProfile:
   - getMe:
   - updateMe:

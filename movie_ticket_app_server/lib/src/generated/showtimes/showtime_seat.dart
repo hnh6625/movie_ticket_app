@@ -28,7 +28,7 @@ abstract class ShowtimeSeat
     required int showtimeId,
     required int seatId,
     required String status,
-    int? heldByUserId,
+    String? heldByUserId,
     DateTime? holdExpiredAt,
   }) = _ShowtimeSeatImpl;
 
@@ -38,7 +38,7 @@ abstract class ShowtimeSeat
       showtimeId: jsonSerialization['showtimeId'] as int,
       seatId: jsonSerialization['seatId'] as int,
       status: jsonSerialization['status'] as String,
-      heldByUserId: jsonSerialization['heldByUserId'] as int?,
+      heldByUserId: jsonSerialization['heldByUserId'] as String?,
       holdExpiredAt: jsonSerialization['holdExpiredAt'] == null
           ? null
           : _i1.DateTimeJsonExtension.fromJson(
@@ -60,7 +60,7 @@ abstract class ShowtimeSeat
 
   String status;
 
-  int? heldByUserId;
+  String? heldByUserId;
 
   DateTime? holdExpiredAt;
 
@@ -75,7 +75,7 @@ abstract class ShowtimeSeat
     int? showtimeId,
     int? seatId,
     String? status,
-    int? heldByUserId,
+    String? heldByUserId,
     DateTime? holdExpiredAt,
   });
   @override
@@ -142,7 +142,7 @@ class _ShowtimeSeatImpl extends ShowtimeSeat {
     required int showtimeId,
     required int seatId,
     required String status,
-    int? heldByUserId,
+    String? heldByUserId,
     DateTime? holdExpiredAt,
   }) : super._(
          id: id,
@@ -170,7 +170,7 @@ class _ShowtimeSeatImpl extends ShowtimeSeat {
       showtimeId: showtimeId ?? this.showtimeId,
       seatId: seatId ?? this.seatId,
       status: status ?? this.status,
-      heldByUserId: heldByUserId is int? ? heldByUserId : this.heldByUserId,
+      heldByUserId: heldByUserId is String? ? heldByUserId : this.heldByUserId,
       holdExpiredAt: holdExpiredAt is DateTime?
           ? holdExpiredAt
           : this.holdExpiredAt,
@@ -196,10 +196,11 @@ class ShowtimeSeatUpdateTable extends _i1.UpdateTable<ShowtimeSeatTable> {
     value,
   );
 
-  _i1.ColumnValue<int, int> heldByUserId(int? value) => _i1.ColumnValue(
-    table.heldByUserId,
-    value,
-  );
+  _i1.ColumnValue<String, String> heldByUserId(String? value) =>
+      _i1.ColumnValue(
+        table.heldByUserId,
+        value,
+      );
 
   _i1.ColumnValue<DateTime, DateTime> holdExpiredAt(DateTime? value) =>
       _i1.ColumnValue(
@@ -224,7 +225,7 @@ class ShowtimeSeatTable extends _i1.Table<int?> {
       'status',
       this,
     );
-    heldByUserId = _i1.ColumnInt(
+    heldByUserId = _i1.ColumnString(
       'heldByUserId',
       this,
     );
@@ -242,7 +243,7 @@ class ShowtimeSeatTable extends _i1.Table<int?> {
 
   late final _i1.ColumnString status;
 
-  late final _i1.ColumnInt heldByUserId;
+  late final _i1.ColumnString heldByUserId;
 
   late final _i1.ColumnDateTime holdExpiredAt;
 
