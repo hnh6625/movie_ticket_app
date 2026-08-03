@@ -16,6 +16,7 @@ abstract class UserProfile implements _i1.SerializableModel {
   UserProfile._({
     this.id,
     required this.userIdentifier,
+    required this.email,
     required this.name,
     this.phone,
     this.avatarUrl,
@@ -26,6 +27,7 @@ abstract class UserProfile implements _i1.SerializableModel {
   factory UserProfile({
     int? id,
     required String userIdentifier,
+    required String email,
     required String name,
     String? phone,
     String? avatarUrl,
@@ -37,6 +39,7 @@ abstract class UserProfile implements _i1.SerializableModel {
     return UserProfile(
       id: jsonSerialization['id'] as int?,
       userIdentifier: jsonSerialization['userIdentifier'] as String,
+      email: jsonSerialization['email'] as String,
       name: jsonSerialization['name'] as String,
       phone: jsonSerialization['phone'] as String?,
       avatarUrl: jsonSerialization['avatarUrl'] as String?,
@@ -54,6 +57,8 @@ abstract class UserProfile implements _i1.SerializableModel {
 
   String userIdentifier;
 
+  String email;
+
   String name;
 
   String? phone;
@@ -70,6 +75,7 @@ abstract class UserProfile implements _i1.SerializableModel {
   UserProfile copyWith({
     int? id,
     String? userIdentifier,
+    String? email,
     String? name,
     String? phone,
     String? avatarUrl,
@@ -82,6 +88,7 @@ abstract class UserProfile implements _i1.SerializableModel {
       '__className__': 'UserProfile',
       if (id != null) 'id': id,
       'userIdentifier': userIdentifier,
+      'email': email,
       'name': name,
       if (phone != null) 'phone': phone,
       if (avatarUrl != null) 'avatarUrl': avatarUrl,
@@ -102,6 +109,7 @@ class _UserProfileImpl extends UserProfile {
   _UserProfileImpl({
     int? id,
     required String userIdentifier,
+    required String email,
     required String name,
     String? phone,
     String? avatarUrl,
@@ -110,6 +118,7 @@ class _UserProfileImpl extends UserProfile {
   }) : super._(
          id: id,
          userIdentifier: userIdentifier,
+         email: email,
          name: name,
          phone: phone,
          avatarUrl: avatarUrl,
@@ -124,6 +133,7 @@ class _UserProfileImpl extends UserProfile {
   UserProfile copyWith({
     Object? id = _Undefined,
     String? userIdentifier,
+    String? email,
     String? name,
     Object? phone = _Undefined,
     Object? avatarUrl = _Undefined,
@@ -133,6 +143,7 @@ class _UserProfileImpl extends UserProfile {
     return UserProfile(
       id: id is int? ? id : this.id,
       userIdentifier: userIdentifier ?? this.userIdentifier,
+      email: email ?? this.email,
       name: name ?? this.name,
       phone: phone is String? ? phone : this.phone,
       avatarUrl: avatarUrl is String? ? avatarUrl : this.avatarUrl,

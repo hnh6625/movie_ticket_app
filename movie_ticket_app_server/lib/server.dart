@@ -1,13 +1,10 @@
-import 'dart:io';
-
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_idp_server/core.dart';
 import 'package:serverpod_auth_idp_server/providers/email.dart';
+import 'package:serverpod_auth_idp_server/providers/google.dart';
 
 import 'src/generated/endpoints.dart';
 import 'src/generated/protocol.dart';
-import 'src/web/routes/app_config_route.dart';
-import 'src/web/routes/root.dart';
 import 'src/seed/seed_data.dart';
 import 'src/showtimes/release_seat_future_call.dart';
 
@@ -26,6 +23,7 @@ void run(List<String> args) async {
     ],
     identityProviderBuilders: [
       EmailIdpConfigFromPasswords(),
+      GoogleIdpConfigFromPasswords(),
     ],
   );
 

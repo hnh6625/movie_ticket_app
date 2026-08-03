@@ -12,7 +12,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import '../showtimes/showtime_seat.dart' as _i2;
-import 'package:movie_ticket_app_client/src/protocol/protocol.dart' as _i3;
+import '../orders/order.dart' as _i3;
+import 'package:movie_ticket_app_client/src/protocol/protocol.dart' as _i4;
 
 abstract class Showtime implements _i1.SerializableModel {
   Showtime._({
@@ -22,6 +23,7 @@ abstract class Showtime implements _i1.SerializableModel {
     required this.startTime,
     required this.basePrice,
     this.showtimeSeats,
+    this.orders,
   });
 
   factory Showtime({
@@ -31,6 +33,7 @@ abstract class Showtime implements _i1.SerializableModel {
     required DateTime startTime,
     required double basePrice,
     List<_i2.ShowtimeSeat>? showtimeSeats,
+    List<_i3.Order>? orders,
   }) = _ShowtimeImpl;
 
   factory Showtime.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -44,8 +47,13 @@ abstract class Showtime implements _i1.SerializableModel {
       basePrice: (jsonSerialization['basePrice'] as num).toDouble(),
       showtimeSeats: jsonSerialization['showtimeSeats'] == null
           ? null
-          : _i3.Protocol().deserialize<List<_i2.ShowtimeSeat>>(
+          : _i4.Protocol().deserialize<List<_i2.ShowtimeSeat>>(
               jsonSerialization['showtimeSeats'],
+            ),
+      orders: jsonSerialization['orders'] == null
+          ? null
+          : _i4.Protocol().deserialize<List<_i3.Order>>(
+              jsonSerialization['orders'],
             ),
     );
   }
@@ -65,6 +73,8 @@ abstract class Showtime implements _i1.SerializableModel {
 
   List<_i2.ShowtimeSeat>? showtimeSeats;
 
+  List<_i3.Order>? orders;
+
   /// Returns a shallow copy of this [Showtime]
   /// with some or all fields replaced by the given arguments.
   @_i1.useResult
@@ -75,6 +85,7 @@ abstract class Showtime implements _i1.SerializableModel {
     DateTime? startTime,
     double? basePrice,
     List<_i2.ShowtimeSeat>? showtimeSeats,
+    List<_i3.Order>? orders,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -87,6 +98,8 @@ abstract class Showtime implements _i1.SerializableModel {
       'basePrice': basePrice,
       if (showtimeSeats != null)
         'showtimeSeats': showtimeSeats?.toJson(valueToJson: (v) => v.toJson()),
+      if (orders != null)
+        'orders': orders?.toJson(valueToJson: (v) => v.toJson()),
     };
   }
 
@@ -106,6 +119,7 @@ class _ShowtimeImpl extends Showtime {
     required DateTime startTime,
     required double basePrice,
     List<_i2.ShowtimeSeat>? showtimeSeats,
+    List<_i3.Order>? orders,
   }) : super._(
          id: id,
          movieId: movieId,
@@ -113,6 +127,7 @@ class _ShowtimeImpl extends Showtime {
          startTime: startTime,
          basePrice: basePrice,
          showtimeSeats: showtimeSeats,
+         orders: orders,
        );
 
   /// Returns a shallow copy of this [Showtime]
@@ -126,6 +141,7 @@ class _ShowtimeImpl extends Showtime {
     DateTime? startTime,
     double? basePrice,
     Object? showtimeSeats = _Undefined,
+    Object? orders = _Undefined,
   }) {
     return Showtime(
       id: id is int? ? id : this.id,
@@ -136,6 +152,9 @@ class _ShowtimeImpl extends Showtime {
       showtimeSeats: showtimeSeats is List<_i2.ShowtimeSeat>?
           ? showtimeSeats
           : this.showtimeSeats?.map((e0) => e0.copyWith()).toList(),
+      orders: orders is List<_i3.Order>?
+          ? orders
+          : this.orders?.map((e0) => e0.copyWith()).toList(),
     );
   }
 }

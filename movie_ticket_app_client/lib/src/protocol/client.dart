@@ -10,33 +10,134 @@
 // ignore_for_file: invalid_use_of_internal_member
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
-    as _i1;
-import 'package:serverpod_client/serverpod_client.dart' as _i2;
-import 'dart:async' as _i3;
-import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
-    as _i4;
+import 'package:serverpod_client/serverpod_client.dart' as _i1;
+import 'dart:async' as _i2;
 import 'package:movie_ticket_app_client/src/protocol/cinemas/cinema.dart'
-    as _i5;
-import 'package:movie_ticket_app_client/src/protocol/cinemas/room.dart' as _i6;
-import 'package:movie_ticket_app_client/src/protocol/concessions/concession.dart'
-    as _i7;
-import 'package:movie_ticket_app_client/src/protocol/greetings/greeting.dart'
-    as _i8;
-import 'package:movie_ticket_app_client/src/protocol/movies/movie.dart' as _i9;
-import 'package:movie_ticket_app_client/src/protocol/reviews/review.dart'
-    as _i10;
+    as _i3;
+import 'package:movie_ticket_app_client/src/protocol/cinemas/room.dart' as _i4;
+import 'package:movie_ticket_app_client/src/protocol/movies/movie.dart' as _i5;
 import 'package:movie_ticket_app_client/src/protocol/showtimes/showtime.dart'
-    as _i11;
-import 'package:movie_ticket_app_client/src/protocol/showtimes/showtime_seat.dart'
-    as _i12;
-import 'package:movie_ticket_app_client/src/protocol/users/user_profile.dart'
+    as _i6;
+import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
+    as _i7;
+import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
+    as _i8;
+import 'package:movie_ticket_app_client/src/protocol/concessions/concession.dart'
+    as _i9;
+import 'package:movie_ticket_app_client/src/protocol/greetings/greeting.dart'
+    as _i10;
+import 'package:movie_ticket_app_client/src/protocol/protocol.dart' as _i11;
+import 'package:movie_ticket_app_client/src/protocol/orders/order.dart' as _i12;
+import 'package:movie_ticket_app_client/src/protocol/reviews/review.dart'
     as _i13;
-import 'protocol.dart' as _i14;
+import 'package:movie_ticket_app_client/src/protocol/showtimes/showtime_seat.dart'
+    as _i14;
+import 'package:movie_ticket_app_client/src/protocol/users/user_profile.dart'
+    as _i15;
+import 'protocol.dart' as _i16;
 
 /// {@category Endpoint}
-class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
-  EndpointEmailIdp(_i2.EndpointCaller caller) : super(caller);
+class EndpointAdminCinema extends _i1.EndpointRef {
+  EndpointAdminCinema(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'adminCinema';
+
+  _i2.Future<_i3.Cinema?> createCinema(_i3.Cinema cinema) =>
+      caller.callServerEndpoint<_i3.Cinema?>(
+        'adminCinema',
+        'createCinema',
+        {'cinema': cinema},
+      );
+
+  _i2.Future<_i3.Cinema?> updateCinema(_i3.Cinema cinema) =>
+      caller.callServerEndpoint<_i3.Cinema?>(
+        'adminCinema',
+        'updateCinema',
+        {'cinema': cinema},
+      );
+
+  _i2.Future<bool> deleteCinema(int id) => caller.callServerEndpoint<bool>(
+    'adminCinema',
+    'deleteCinema',
+    {'id': id},
+  );
+
+  _i2.Future<_i4.Room?> createRoom(_i4.Room room) =>
+      caller.callServerEndpoint<_i4.Room?>(
+        'adminCinema',
+        'createRoom',
+        {'room': room},
+      );
+
+  _i2.Future<bool> deleteRoom(int id) => caller.callServerEndpoint<bool>(
+    'adminCinema',
+    'deleteRoom',
+    {'id': id},
+  );
+}
+
+/// {@category Endpoint}
+class EndpointAdminMovie extends _i1.EndpointRef {
+  EndpointAdminMovie(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'adminMovie';
+
+  _i2.Future<_i5.Movie?> create(_i5.Movie movie) =>
+      caller.callServerEndpoint<_i5.Movie?>(
+        'adminMovie',
+        'create',
+        {'movie': movie},
+      );
+
+  _i2.Future<_i5.Movie?> update(_i5.Movie movie) =>
+      caller.callServerEndpoint<_i5.Movie?>(
+        'adminMovie',
+        'update',
+        {'movie': movie},
+      );
+
+  _i2.Future<bool> delete(int id) => caller.callServerEndpoint<bool>(
+    'adminMovie',
+    'delete',
+    {'id': id},
+  );
+}
+
+/// {@category Endpoint}
+class EndpointAdminShowtime extends _i1.EndpointRef {
+  EndpointAdminShowtime(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'adminShowtime';
+
+  _i2.Future<_i6.Showtime?> create({
+    required int movieId,
+    required int roomId,
+    required DateTime startTime,
+    required double basePrice,
+  }) => caller.callServerEndpoint<_i6.Showtime?>(
+    'adminShowtime',
+    'create',
+    {
+      'movieId': movieId,
+      'roomId': roomId,
+      'startTime': startTime,
+      'basePrice': basePrice,
+    },
+  );
+
+  _i2.Future<bool> delete(int id) => caller.callServerEndpoint<bool>(
+    'adminShowtime',
+    'delete',
+    {'id': id},
+  );
+}
+
+/// {@category Endpoint}
+class EndpointEmailIdp extends _i7.EndpointEmailIdpBase {
+  EndpointEmailIdp(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'emailIdp';
@@ -51,10 +152,10 @@ class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
   ///
   /// Throws an [AuthUserBlockedException] if the auth user is blocked.
   @override
-  _i3.Future<_i4.AuthSuccess> login({
+  _i2.Future<_i8.AuthSuccess> login({
     required String email,
     required String password,
-  }) => caller.callServerEndpoint<_i4.AuthSuccess>(
+  }) => caller.callServerEndpoint<_i8.AuthSuccess>(
     'emailIdp',
     'login',
     {
@@ -74,8 +175,8 @@ class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
   /// registration. If the email is already registered, the returned ID will not
   /// be valid.
   @override
-  _i3.Future<_i2.UuidValue> startRegistration({required String email}) =>
-      caller.callServerEndpoint<_i2.UuidValue>(
+  _i2.Future<_i1.UuidValue> startRegistration({required String email}) =>
+      caller.callServerEndpoint<_i1.UuidValue>(
         'emailIdp',
         'startRegistration',
         {'email': email},
@@ -92,8 +193,8 @@ class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
   /// - [EmailAccountRequestExceptionReason.invalid] if no request exists
   ///   for the given [accountRequestId] or [verificationCode] is invalid.
   @override
-  _i3.Future<String> verifyRegistrationCode({
-    required _i2.UuidValue accountRequestId,
+  _i2.Future<String> verifyRegistrationCode({
+    required _i1.UuidValue accountRequestId,
     required String verificationCode,
   }) => caller.callServerEndpoint<String>(
     'emailIdp',
@@ -119,10 +220,10 @@ class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
   ///
   /// Returns a session for the newly created user.
   @override
-  _i3.Future<_i4.AuthSuccess> finishRegistration({
+  _i2.Future<_i8.AuthSuccess> finishRegistration({
     required String registrationToken,
     required String password,
-  }) => caller.callServerEndpoint<_i4.AuthSuccess>(
+  }) => caller.callServerEndpoint<_i8.AuthSuccess>(
     'emailIdp',
     'finishRegistration',
     {
@@ -145,8 +246,8 @@ class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
   ///   made too many attempts trying to request a password reset.
   ///
   @override
-  _i3.Future<_i2.UuidValue> startPasswordReset({required String email}) =>
-      caller.callServerEndpoint<_i2.UuidValue>(
+  _i2.Future<_i1.UuidValue> startPasswordReset({required String email}) =>
+      caller.callServerEndpoint<_i1.UuidValue>(
         'emailIdp',
         'startPasswordReset',
         {'email': email},
@@ -167,8 +268,8 @@ class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
   /// should be overridden to return credentials for the next step instead
   /// of the credentials for setting the password.
   @override
-  _i3.Future<String> verifyPasswordResetCode({
-    required _i2.UuidValue passwordResetRequestId,
+  _i2.Future<String> verifyPasswordResetCode({
+    required _i1.UuidValue passwordResetRequestId,
     required String verificationCode,
   }) => caller.callServerEndpoint<String>(
     'emailIdp',
@@ -194,7 +295,7 @@ class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
   ///
   /// Throws an [AuthUserBlockedException] if the auth user is blocked.
   @override
-  _i3.Future<void> finishPasswordReset({
+  _i2.Future<void> finishPasswordReset({
     required String finishPasswordResetToken,
     required String newPassword,
   }) => caller.callServerEndpoint<void>(
@@ -207,7 +308,7 @@ class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
   );
 
   @override
-  _i3.Future<bool> hasAccount() => caller.callServerEndpoint<bool>(
+  _i2.Future<bool> hasAccount() => caller.callServerEndpoint<bool>(
     'emailIdp',
     'hasAccount',
     {},
@@ -215,8 +316,40 @@ class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
 }
 
 /// {@category Endpoint}
-class EndpointRefreshJwtTokens extends _i4.EndpointRefreshJwtTokens {
-  EndpointRefreshJwtTokens(_i2.EndpointCaller caller) : super(caller);
+class EndpointGoogleIdp extends _i7.EndpointGoogleIdpBase {
+  EndpointGoogleIdp(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'googleIdp';
+
+  /// Validates a Google ID token and either logs in the associated user or
+  /// creates a new user account if the Google account ID is not yet known.
+  ///
+  /// If a new user is created an associated [UserProfile] is also created.
+  @override
+  _i2.Future<_i8.AuthSuccess> login({
+    required String idToken,
+    required String? accessToken,
+  }) => caller.callServerEndpoint<_i8.AuthSuccess>(
+    'googleIdp',
+    'login',
+    {
+      'idToken': idToken,
+      'accessToken': accessToken,
+    },
+  );
+
+  @override
+  _i2.Future<bool> hasAccount() => caller.callServerEndpoint<bool>(
+    'googleIdp',
+    'hasAccount',
+    {},
+  );
+}
+
+/// {@category Endpoint}
+class EndpointRefreshJwtTokens extends _i8.EndpointRefreshJwtTokens {
+  EndpointRefreshJwtTokens(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'refreshJwtTokens';
@@ -240,9 +373,9 @@ class EndpointRefreshJwtTokens extends _i4.EndpointRefreshJwtTokens {
   /// This endpoint is unauthenticated, meaning the client won't include any
   /// authentication information with the call.
   @override
-  _i3.Future<_i4.AuthSuccess> refreshAccessToken({
+  _i2.Future<_i8.AuthSuccess> refreshAccessToken({
     required String refreshToken,
-  }) => caller.callServerEndpoint<_i4.AuthSuccess>(
+  }) => caller.callServerEndpoint<_i8.AuthSuccess>(
     'refreshJwtTokens',
     'refreshAccessToken',
     {'refreshToken': refreshToken},
@@ -251,21 +384,21 @@ class EndpointRefreshJwtTokens extends _i4.EndpointRefreshJwtTokens {
 }
 
 /// {@category Endpoint}
-class EndpointCinema extends _i2.EndpointRef {
-  EndpointCinema(_i2.EndpointCaller caller) : super(caller);
+class EndpointCinema extends _i1.EndpointRef {
+  EndpointCinema(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'cinema';
 
-  _i3.Future<List<_i5.Cinema>> getAll() =>
-      caller.callServerEndpoint<List<_i5.Cinema>>(
+  _i2.Future<List<_i3.Cinema>> getAll() =>
+      caller.callServerEndpoint<List<_i3.Cinema>>(
         'cinema',
         'getAll',
         {},
       );
 
-  _i3.Future<_i6.Room?> getRoomWithSeats(int roomId) =>
-      caller.callServerEndpoint<_i6.Room?>(
+  _i2.Future<_i4.Room?> getRoomWithSeats(int roomId) =>
+      caller.callServerEndpoint<_i4.Room?>(
         'cinema',
         'getRoomWithSeats',
         {'roomId': roomId},
@@ -273,14 +406,14 @@ class EndpointCinema extends _i2.EndpointRef {
 }
 
 /// {@category Endpoint}
-class EndpointConcession extends _i2.EndpointRef {
-  EndpointConcession(_i2.EndpointCaller caller) : super(caller);
+class EndpointConcession extends _i1.EndpointRef {
+  EndpointConcession(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'concession';
 
-  _i3.Future<List<_i7.Concession>> getAll() =>
-      caller.callServerEndpoint<List<_i7.Concession>>(
+  _i2.Future<List<_i9.Concession>> getAll() =>
+      caller.callServerEndpoint<List<_i9.Concession>>(
         'concession',
         'getAll',
         {},
@@ -290,15 +423,15 @@ class EndpointConcession extends _i2.EndpointRef {
 /// This is an example endpoint that returns a greeting message through
 /// its [hello] method.
 /// {@category Endpoint}
-class EndpointGreeting extends _i2.EndpointRef {
-  EndpointGreeting(_i2.EndpointCaller caller) : super(caller);
+class EndpointGreeting extends _i1.EndpointRef {
+  EndpointGreeting(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'greeting';
 
   /// Returns a personalized greeting message: "Hello {name}".
-  _i3.Future<_i8.Greeting> hello(String name) =>
-      caller.callServerEndpoint<_i8.Greeting>(
+  _i2.Future<_i10.Greeting> hello(String name) =>
+      caller.callServerEndpoint<_i10.Greeting>(
         'greeting',
         'hello',
         {'name': name},
@@ -307,23 +440,23 @@ class EndpointGreeting extends _i2.EndpointRef {
 
 /// Endpoint for managing movies. Accessed through `client.movie` on the client side.
 /// {@category Endpoint}
-class EndpointMovie extends _i2.EndpointRef {
-  EndpointMovie(_i2.EndpointCaller caller) : super(caller);
+class EndpointMovie extends _i1.EndpointRef {
+  EndpointMovie(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'movie';
 
   /// Returns a list of movies, optionally filtered by [status].
-  _i3.Future<List<_i9.Movie>> getAll({String? status}) =>
-      caller.callServerEndpoint<List<_i9.Movie>>(
+  _i2.Future<List<_i5.Movie>> getAll({String? status}) =>
+      caller.callServerEndpoint<List<_i5.Movie>>(
         'movie',
         'getAll',
         {'status': status},
       );
 
   /// Returns a single movie by its [id].
-  _i3.Future<_i9.Movie?> getById(int id) =>
-      caller.callServerEndpoint<_i9.Movie?>(
+  _i2.Future<_i5.Movie?> getById(int id) =>
+      caller.callServerEndpoint<_i5.Movie?>(
         'movie',
         'getById',
         {'id': id},
@@ -331,17 +464,57 @@ class EndpointMovie extends _i2.EndpointRef {
 }
 
 /// {@category Endpoint}
-class EndpointReview extends _i2.EndpointRef {
-  EndpointReview(_i2.EndpointCaller caller) : super(caller);
+class EndpointOrder extends _i1.EndpointRef {
+  EndpointOrder(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'order';
+
+  _i2.Future<Map<String, dynamic>> create({
+    required int showtimeId,
+    required List<int> showtimeSeatIds,
+    required Map<int, int> concessionQuantities,
+    required String paymentMethod,
+  }) => caller.callServerEndpoint<Map<String, dynamic>>(
+    'order',
+    'create',
+    {
+      'showtimeId': showtimeId,
+      'showtimeSeatIds': showtimeSeatIds,
+      'concessionQuantities': _i11.Protocol().mapContainerToJson(
+        concessionQuantities,
+      ),
+      'paymentMethod': paymentMethod,
+    },
+  );
+
+  _i2.Future<_i12.Order?> getById(int id) =>
+      caller.callServerEndpoint<_i12.Order?>(
+        'order',
+        'getById',
+        {'id': id},
+      );
+
+  _i2.Future<List<_i12.Order>> getMyOrders() =>
+      caller.callServerEndpoint<List<_i12.Order>>(
+        'order',
+        'getMyOrders',
+        {},
+      );
+}
+
+/// {@category Endpoint}
+class EndpointReview extends _i1.EndpointRef {
+  EndpointReview(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'review';
 
-  _i3.Future<_i10.Review> create({
+  _i2.Future<Map<String, dynamic>> create({
     required int movieId,
     required int rating,
     required String comment,
-  }) => caller.callServerEndpoint<_i10.Review>(
+  }) => caller.callServerEndpoint<Map<String, dynamic>>(
     'review',
     'create',
     {
@@ -351,8 +524,8 @@ class EndpointReview extends _i2.EndpointRef {
     },
   );
 
-  _i3.Future<List<_i10.Review>> getByMovie(int movieId) =>
-      caller.callServerEndpoint<List<_i10.Review>>(
+  _i2.Future<List<_i13.Review>> getByMovie(int movieId) =>
+      caller.callServerEndpoint<List<_i13.Review>>(
         'review',
         'getByMovie',
         {'movieId': movieId},
@@ -360,16 +533,16 @@ class EndpointReview extends _i2.EndpointRef {
 }
 
 /// {@category Endpoint}
-class EndpointShowtime extends _i2.EndpointRef {
-  EndpointShowtime(_i2.EndpointCaller caller) : super(caller);
+class EndpointShowtime extends _i1.EndpointRef {
+  EndpointShowtime(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'showtime';
 
-  _i3.Future<List<_i11.Showtime>> getByCinemaAndMovie({
+  _i2.Future<List<_i6.Showtime>> getByCinemaAndMovie({
     required int movieId,
     required DateTime date,
-  }) => caller.callServerEndpoint<List<_i11.Showtime>>(
+  }) => caller.callServerEndpoint<List<_i6.Showtime>>(
     'showtime',
     'getByCinemaAndMovie',
     {
@@ -378,51 +551,65 @@ class EndpointShowtime extends _i2.EndpointRef {
     },
   );
 
-  _i3.Future<List<_i12.ShowtimeSeat>> getSeats(int showtimeId) =>
-      caller.callServerEndpoint<List<_i12.ShowtimeSeat>>(
+  _i2.Future<List<_i14.ShowtimeSeat>> getSeats(int showtimeId) =>
+      caller.callServerEndpoint<List<_i14.ShowtimeSeat>>(
         'showtime',
         'getSeats',
         {'showtimeId': showtimeId},
       );
 
-  _i3.Future<bool> holdSeats({
+  _i2.Future<Map<String, dynamic>> holdSeats({
     required int showtimeId,
-    required List<int> seatIds,
-    required int userId,
-  }) => caller.callServerEndpoint<bool>(
+    required List<int> showtimeSeatIds,
+  }) => caller.callServerEndpoint<Map<String, dynamic>>(
     'showtime',
     'holdSeats',
     {
       'showtimeId': showtimeId,
-      'seatIds': seatIds,
-      'userId': userId,
+      'showtimeSeatIds': showtimeSeatIds,
     },
   );
+
+  _i2.Future<bool> releaseSeats({required List<int> showtimeSeatIds}) =>
+      caller.callServerEndpoint<bool>(
+        'showtime',
+        'releaseSeats',
+        {'showtimeSeatIds': showtimeSeatIds},
+      );
+
+  _i2.Future<_i6.Showtime?> getById(int id) =>
+      caller.callServerEndpoint<_i6.Showtime?>(
+        'showtime',
+        'getById',
+        {'id': id},
+      );
 }
 
 /// {@category Endpoint}
-class EndpointUserProfile extends _i2.EndpointRef {
-  EndpointUserProfile(_i2.EndpointCaller caller) : super(caller);
+class EndpointUserProfile extends _i1.EndpointRef {
+  EndpointUserProfile(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'userProfile';
 
-  _i3.Future<_i13.UserProfile?> getMe() =>
-      caller.callServerEndpoint<_i13.UserProfile?>(
+  _i2.Future<_i15.UserProfile?> getMe() =>
+      caller.callServerEndpoint<_i15.UserProfile?>(
         'userProfile',
         'getMe',
         {},
       );
 
-  _i3.Future<_i13.UserProfile> updateMe({
+  _i2.Future<_i15.UserProfile> updateMe({
     required String name,
+    required String email,
     String? phone,
     String? avatarUrl,
-  }) => caller.callServerEndpoint<_i13.UserProfile>(
+  }) => caller.callServerEndpoint<_i15.UserProfile>(
     'userProfile',
     'updateMe',
     {
       'name': name,
+      'email': email,
       'phone': phone,
       'avatarUrl': avatarUrl,
     },
@@ -431,16 +618,16 @@ class EndpointUserProfile extends _i2.EndpointRef {
 
 class Modules {
   Modules(Client client) {
-    serverpod_auth_idp = _i1.Caller(client);
-    serverpod_auth_core = _i4.Caller(client);
+    serverpod_auth_idp = _i7.Caller(client);
+    serverpod_auth_core = _i8.Caller(client);
   }
 
-  late final _i1.Caller serverpod_auth_idp;
+  late final _i7.Caller serverpod_auth_idp;
 
-  late final _i4.Caller serverpod_auth_core;
+  late final _i8.Caller serverpod_auth_core;
 }
 
-class Client extends _i2.ServerpodClientShared {
+class Client extends _i1.ServerpodClientShared {
   Client(
     String host, {
     dynamic securityContext,
@@ -451,16 +638,16 @@ class Client extends _i2.ServerpodClientShared {
     Duration? streamingConnectionTimeout,
     Duration? connectionTimeout,
     Function(
-      _i2.MethodCallContext,
+      _i1.MethodCallContext,
       Object,
       StackTrace,
     )?
     onFailedCall,
-    Function(_i2.MethodCallContext)? onSucceededCall,
+    Function(_i1.MethodCallContext)? onSucceededCall,
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i14.Protocol(),
+         _i16.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,
@@ -469,19 +656,32 @@ class Client extends _i2.ServerpodClientShared {
          disconnectStreamsOnLostInternetConnection:
              disconnectStreamsOnLostInternetConnection,
        ) {
+    adminCinema = EndpointAdminCinema(this);
+    adminMovie = EndpointAdminMovie(this);
+    adminShowtime = EndpointAdminShowtime(this);
     emailIdp = EndpointEmailIdp(this);
+    googleIdp = EndpointGoogleIdp(this);
     refreshJwtTokens = EndpointRefreshJwtTokens(this);
     cinema = EndpointCinema(this);
     concession = EndpointConcession(this);
     greeting = EndpointGreeting(this);
     movie = EndpointMovie(this);
+    order = EndpointOrder(this);
     review = EndpointReview(this);
     showtime = EndpointShowtime(this);
     userProfile = EndpointUserProfile(this);
     modules = Modules(this);
   }
 
+  late final EndpointAdminCinema adminCinema;
+
+  late final EndpointAdminMovie adminMovie;
+
+  late final EndpointAdminShowtime adminShowtime;
+
   late final EndpointEmailIdp emailIdp;
+
+  late final EndpointGoogleIdp googleIdp;
 
   late final EndpointRefreshJwtTokens refreshJwtTokens;
 
@@ -493,6 +693,8 @@ class Client extends _i2.ServerpodClientShared {
 
   late final EndpointMovie movie;
 
+  late final EndpointOrder order;
+
   late final EndpointReview review;
 
   late final EndpointShowtime showtime;
@@ -502,20 +704,25 @@ class Client extends _i2.ServerpodClientShared {
   late final Modules modules;
 
   @override
-  Map<String, _i2.EndpointRef> get endpointRefLookup => {
+  Map<String, _i1.EndpointRef> get endpointRefLookup => {
+    'adminCinema': adminCinema,
+    'adminMovie': adminMovie,
+    'adminShowtime': adminShowtime,
     'emailIdp': emailIdp,
+    'googleIdp': googleIdp,
     'refreshJwtTokens': refreshJwtTokens,
     'cinema': cinema,
     'concession': concession,
     'greeting': greeting,
     'movie': movie,
+    'order': order,
     'review': review,
     'showtime': showtime,
     'userProfile': userProfile,
   };
 
   @override
-  Map<String, _i2.ModuleEndpointCaller> get moduleLookup => {
+  Map<String, _i1.ModuleEndpointCaller> get moduleLookup => {
     'serverpod_auth_idp': modules.serverpod_auth_idp,
     'serverpod_auth_core': modules.serverpod_auth_core,
   };

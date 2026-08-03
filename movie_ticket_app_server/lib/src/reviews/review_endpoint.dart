@@ -1,27 +1,55 @@
+import 'package:serverpod/serverpod.dart' hide Order;
 import '../generated/protocol.dart';
-import 'package:serverpod/serverpod.dart';
 
 class ReviewEndpoint extends Endpoint {
-  Future<Review> create(
+  Future<Map<String, dynamic>> create(
       Session session, {
         required int movieId,
         required int rating,
         required String comment,
       }) async {
     final authInfo = session.authenticated;
-    if (authInfo == null) throw Exception('User not authenticated');
+    if (authInfo == null) {
+      return {'success': false, 'message': 'Chưa đăng nhập'};
+    }
 
-    // TODO: kiểm tra user đã có Order status=USED cho phim này chưa
-    // (thêm sau khi có model Order)
+    // 1. Lấy toàn bộ showtimeId thuộc phim này
+    final showtimes = await Showtime.db.find(session, where: (t) => t.movieId.equals(movieId));
+    final showtimeIds = showtimes.map((s) => s.id!).toSet();
 
-    final review = Review(
-      movieId: movieId,
-      userIdentifier: authInfo.userIdentifier,
-      rating: rating,
-      comment: comment,
-      createdAt: DateTime.now(),
+    // 2. Lấy toàn bộ Order đã USED của user này
+    final usedOrders = await Order.db.find(
+      session,
+      where: (t) => t.userIdentifier.equals(authInfo.userIdentifier) & t.status.equals('USED'),
     );
-    return Review.db.insertRow(session, review);
+
+    // 3. Kiểm tra có Order nào gắn với showtime của phim này không
+    final hasWatched = usedOrders.any((order) => showtimeIds.contains(order.showtimeId));
+    if (!hasWatched) {
+      return {'success': false, 'message': 'Bạn cần xem phim này trước khi đánh giá'};
+    }
+
+    // 4. Kiểm tra chưa review trước đó (tránh lỗi unique constraint khó hiểu)
+    final existing = await Review.db.findFirstRow(
+      session,
+      where: (t) => t.movieId.equals(movieId) & t.userIdentifier.equals(authInfo.userIdentifier),
+    );
+    if (existing != null) {
+      return {'success': false, 'message': 'Bạn đã đánh giá phim này rồi'};
+    }
+
+    final review = await Review.db.insertRow(
+      session,
+      Review(
+        movieId: movieId,
+        userIdentifier: authInfo.userIdentifier,
+        rating: rating,
+        comment: comment,
+        createdAt: DateTime.now(),
+      ),
+    );
+
+    return {'success': true, 'reviewId': review.id};
   }
 
   Future<List<Review>> getByMovie(Session session, int movieId) async {

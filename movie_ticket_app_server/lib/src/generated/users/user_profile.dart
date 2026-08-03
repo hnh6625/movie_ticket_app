@@ -17,6 +17,7 @@ abstract class UserProfile
   UserProfile._({
     this.id,
     required this.userIdentifier,
+    required this.email,
     required this.name,
     this.phone,
     this.avatarUrl,
@@ -27,6 +28,7 @@ abstract class UserProfile
   factory UserProfile({
     int? id,
     required String userIdentifier,
+    required String email,
     required String name,
     String? phone,
     String? avatarUrl,
@@ -38,6 +40,7 @@ abstract class UserProfile
     return UserProfile(
       id: jsonSerialization['id'] as int?,
       userIdentifier: jsonSerialization['userIdentifier'] as String,
+      email: jsonSerialization['email'] as String,
       name: jsonSerialization['name'] as String,
       phone: jsonSerialization['phone'] as String?,
       avatarUrl: jsonSerialization['avatarUrl'] as String?,
@@ -56,6 +59,8 @@ abstract class UserProfile
   int? id;
 
   String userIdentifier;
+
+  String email;
 
   String name;
 
@@ -76,6 +81,7 @@ abstract class UserProfile
   UserProfile copyWith({
     int? id,
     String? userIdentifier,
+    String? email,
     String? name,
     String? phone,
     String? avatarUrl,
@@ -88,6 +94,7 @@ abstract class UserProfile
       '__className__': 'UserProfile',
       if (id != null) 'id': id,
       'userIdentifier': userIdentifier,
+      'email': email,
       'name': name,
       if (phone != null) 'phone': phone,
       if (avatarUrl != null) 'avatarUrl': avatarUrl,
@@ -102,6 +109,7 @@ abstract class UserProfile
       '__className__': 'UserProfile',
       if (id != null) 'id': id,
       'userIdentifier': userIdentifier,
+      'email': email,
       'name': name,
       if (phone != null) 'phone': phone,
       if (avatarUrl != null) 'avatarUrl': avatarUrl,
@@ -146,6 +154,7 @@ class _UserProfileImpl extends UserProfile {
   _UserProfileImpl({
     int? id,
     required String userIdentifier,
+    required String email,
     required String name,
     String? phone,
     String? avatarUrl,
@@ -154,6 +163,7 @@ class _UserProfileImpl extends UserProfile {
   }) : super._(
          id: id,
          userIdentifier: userIdentifier,
+         email: email,
          name: name,
          phone: phone,
          avatarUrl: avatarUrl,
@@ -168,6 +178,7 @@ class _UserProfileImpl extends UserProfile {
   UserProfile copyWith({
     Object? id = _Undefined,
     String? userIdentifier,
+    String? email,
     String? name,
     Object? phone = _Undefined,
     Object? avatarUrl = _Undefined,
@@ -177,6 +188,7 @@ class _UserProfileImpl extends UserProfile {
     return UserProfile(
       id: id is int? ? id : this.id,
       userIdentifier: userIdentifier ?? this.userIdentifier,
+      email: email ?? this.email,
       name: name ?? this.name,
       phone: phone is String? ? phone : this.phone,
       avatarUrl: avatarUrl is String? ? avatarUrl : this.avatarUrl,
@@ -194,6 +206,11 @@ class UserProfileUpdateTable extends _i1.UpdateTable<UserProfileTable> {
         table.userIdentifier,
         value,
       );
+
+  _i1.ColumnValue<String, String> email(String value) => _i1.ColumnValue(
+    table.email,
+    value,
+  );
 
   _i1.ColumnValue<String, String> name(String value) => _i1.ColumnValue(
     table.name,
@@ -229,6 +246,10 @@ class UserProfileTable extends _i1.Table<int?> {
       'userIdentifier',
       this,
     );
+    email = _i1.ColumnString(
+      'email',
+      this,
+    );
     name = _i1.ColumnString(
       'name',
       this,
@@ -255,6 +276,8 @@ class UserProfileTable extends _i1.Table<int?> {
 
   late final _i1.ColumnString userIdentifier;
 
+  late final _i1.ColumnString email;
+
   late final _i1.ColumnString name;
 
   late final _i1.ColumnString phone;
@@ -269,6 +292,7 @@ class UserProfileTable extends _i1.Table<int?> {
   List<_i1.Column> get columns => [
     id,
     userIdentifier,
+    email,
     name,
     phone,
     avatarUrl,

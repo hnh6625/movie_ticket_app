@@ -15,6 +15,7 @@ class UserProfileEndpoint extends Endpoint {
   Future<UserProfile> updateMe(
       Session session, {
         required String name,
+        required String email,
         String? phone,
         String? avatarUrl,
       }) async {
@@ -34,6 +35,7 @@ class UserProfileEndpoint extends Endpoint {
     } else {
       final newProfile = UserProfile(
         userIdentifier: authInfo.userIdentifier,
+        email: email,
         name: name,
         phone: phone,
         avatarUrl: avatarUrl,

@@ -1,5 +1,7 @@
 import 'package:serverpod/serverpod.dart' hide Order;
 import '../generated/protocol.dart';
+import 'dart:async' show unawaited;
+import 'email_service.dart';
 
 /// Hệ số nhân giá theo loại ghế.
 double _seatTypeMultiplier(String seatType) {
@@ -120,6 +122,16 @@ class OrderEndpoint extends Endpoint {
           transaction: transaction,
         );
       }
+      // Gửi email vé (không chặn response nếu gửi lỗi)
+      final profile = await UserProfile.db.findFirstRow(
+        session,
+        where: (t) => t.userIdentifier.equals(authInfo.userIdentifier),
+        transaction: transaction,
+      );
+      if (profile != null) {
+        // Không await trong transaction để tránh giữ transaction quá lâu chờ gửi mail
+        unawaited(sendTicketEmail(session, updatedOrder, profile.email));
+      }
 
       return {
         'success': true,
@@ -129,6 +141,7 @@ class OrderEndpoint extends Endpoint {
       };
     });
   }
+
 
   Future<Order?> getById(Session session, int id) async {
     return Order.db.findById(session, id);

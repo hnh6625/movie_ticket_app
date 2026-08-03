@@ -27,7 +27,7 @@ abstract class ShowtimeSeat implements _i1.SerializableModel {
     required int showtimeId,
     required int seatId,
     required String status,
-    int? heldByUserId,
+    String? heldByUserId,
     DateTime? holdExpiredAt,
   }) = _ShowtimeSeatImpl;
 
@@ -37,7 +37,7 @@ abstract class ShowtimeSeat implements _i1.SerializableModel {
       showtimeId: jsonSerialization['showtimeId'] as int,
       seatId: jsonSerialization['seatId'] as int,
       status: jsonSerialization['status'] as String,
-      heldByUserId: jsonSerialization['heldByUserId'] as int?,
+      heldByUserId: jsonSerialization['heldByUserId'] as String?,
       holdExpiredAt: jsonSerialization['holdExpiredAt'] == null
           ? null
           : _i1.DateTimeJsonExtension.fromJson(
@@ -57,7 +57,7 @@ abstract class ShowtimeSeat implements _i1.SerializableModel {
 
   String status;
 
-  int? heldByUserId;
+  String? heldByUserId;
 
   DateTime? holdExpiredAt;
 
@@ -69,7 +69,7 @@ abstract class ShowtimeSeat implements _i1.SerializableModel {
     int? showtimeId,
     int? seatId,
     String? status,
-    int? heldByUserId,
+    String? heldByUserId,
     DateTime? holdExpiredAt,
   });
   @override
@@ -99,7 +99,7 @@ class _ShowtimeSeatImpl extends ShowtimeSeat {
     required int showtimeId,
     required int seatId,
     required String status,
-    int? heldByUserId,
+    String? heldByUserId,
     DateTime? holdExpiredAt,
   }) : super._(
          id: id,
@@ -127,7 +127,7 @@ class _ShowtimeSeatImpl extends ShowtimeSeat {
       showtimeId: showtimeId ?? this.showtimeId,
       seatId: seatId ?? this.seatId,
       status: status ?? this.status,
-      heldByUserId: heldByUserId is int? ? heldByUserId : this.heldByUserId,
+      heldByUserId: heldByUserId is String? ? heldByUserId : this.heldByUserId,
       holdExpiredAt: holdExpiredAt is DateTime?
           ? holdExpiredAt
           : this.holdExpiredAt,

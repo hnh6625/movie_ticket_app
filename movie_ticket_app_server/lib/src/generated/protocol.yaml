@@ -1,3 +1,16 @@
+adminCinema:
+  - createCinema:
+  - updateCinema:
+  - deleteCinema:
+  - createRoom:
+  - deleteRoom:
+adminMovie:
+  - create:
+  - update:
+  - delete:
+adminShowtime:
+  - create:
+  - delete:
 emailIdp:
   - login:
   - startRegistration:
@@ -6,6 +19,9 @@ emailIdp:
   - startPasswordReset:
   - verifyPasswordResetCode:
   - finishPasswordReset:
+  - hasAccount:
+googleIdp:
+  - login:
   - hasAccount:
 refreshJwtTokens:
   - refreshAccessToken:
@@ -31,6 +47,7 @@ showtime:
   - getSeats:
   - holdSeats:
   - releaseSeats:
+  - getById:
 userProfile:
   - getMe:
   - updateMe:

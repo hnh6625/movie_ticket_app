@@ -111,4 +111,8 @@ class ShowtimeEndpoint extends Endpoint {
     }
     return true;
   }
+
+  Future<Showtime?> getById(Session session, int id) async {
+    return Showtime.db.findById(session, id);
+  }
 }
