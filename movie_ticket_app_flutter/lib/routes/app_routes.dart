@@ -10,4 +10,10 @@ abstract class Routes {
 // ... các route khác của B/C/D thêm vào đây
   static const splash = '/splash';
   static const profile = '/profile';
+  static const movieDetail = '/movie-detail';
+  static const cinemaShowtime = '/cinema-showtime';  // Khương
+  static const review = '/review';
+  static const adminMovie = '/admin-movie';
+  static const adminMovieForm = '/admin-movie-form'; //
+  static const adminShowtime = '/admin-showtime';
 }

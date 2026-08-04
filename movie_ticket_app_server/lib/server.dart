@@ -23,9 +23,11 @@ void run(List<String> args) async {
     ],
     identityProviderBuilders: [
       EmailIdpConfigFromPasswords(),
-      GoogleIdpConfigFromPasswords(),
+      //GoogleIdpConfigFromPasswords(),
     ],
   );
+
+  await pod.start();
 
   final internalSession = await pod.createSession();
   await seedMovies(internalSession);
@@ -34,7 +36,7 @@ void run(List<String> args) async {
   await seedConcessions(internalSession);
   await internalSession.close();
 
-  await pod.start();
+
 }
 
 void _sendRegistrationCode(

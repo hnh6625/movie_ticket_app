@@ -7,6 +7,18 @@ import '../modules/profile/profile_binding.dart';
 import '../modules/profile/profile_view.dart';
 import '../modules/seat_selection/seat_selection_view.dart';
 import '../modules/seat_selection/seat_selection_binding.dart';
+import '../modules/movie_detail/movie_detail_view.dart';
+import '../modules/movie_detail/movie_detail_binding.dart';
+import '../modules/cinema_showtime/cinema_showtime_view.dart';
+import '../modules/cinema_showtime/cinema_showtime_binding.dart';
+import '../modules/review/review_view.dart';
+import '../modules/review/review_binding.dart';
+import '../modules/admin/admin_movie_view.dart';
+import '../modules/admin/admin_movie_binding.dart';
+import '../modules/admin/admin_movie_form_view.dart';
+import '../modules/admin/admin_movie_form_binding.dart';
+import '../modules/admin/admin_showtime_view.dart';
+import '../modules/admin/admin_showtime_binding.dart';
 
 import '../modules/splash/splash_binding.dart';
 import '../modules/splash/splash_view.dart';
@@ -87,5 +99,29 @@ class AppPages {
       page: () => const MyTicketsView(),
       binding: MyTicketsBinding(),
     ),
+    GetPage(
+        name: Routes.movieDetail,
+        page: () => const MovieDetailView(),
+        binding: MovieDetailBinding()),
+    GetPage(
+        name: Routes.cinemaShowtime,
+        page: () => const CinemaShowtimeView(),
+        binding: CinemaShowtimeBinding()),
+    GetPage(
+        name: Routes.review,
+        page: () => const ReviewView(),
+        binding: ReviewBinding()),
+    GetPage(
+        name: Routes.adminMovie,
+        page: () => const AdminMovieView(),
+        binding: AdminMovieBinding()),
+    GetPage(
+        name: Routes.adminMovieForm,
+        page: () => const AdminMovieFormView(),
+        binding: AdminMovieFormBinding()),
+    GetPage(
+        name: Routes.adminShowtime,
+        page: () => const AdminShowtimeView(),
+        binding: AdminShowtimeBinding()),
   ];
 }

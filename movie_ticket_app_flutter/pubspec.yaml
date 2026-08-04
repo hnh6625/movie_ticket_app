@@ -36,6 +36,10 @@ dependencies:
   serverpod_auth_idp_flutter: ^3.4.11
   serverpod_flutter: ^3.4.11
   image_picker: ^1.1.2
+  flutter_map: ^8.0.0
+  latlong2: ^0.9.1
+  youtube_player_iframe: ^5.2.0
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_lints: '>=3.0.0 <7.0.0'
