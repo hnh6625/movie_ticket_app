@@ -13,15 +13,19 @@ void main() async {
 
   final serverUrl = await getServerUrl();
 
+  authSessionManager = FlutterAuthSessionManager();
+
   client = Client(serverUrl)
     ..connectivityMonitor = FlutterConnectivityMonitor()
-    ..authSessionManager = FlutterAuthSessionManager();
+    ..authSessionManager = authSessionManager;
 
-  await client.auth.initialize();
+  await authSessionManager.initialize();
 
-  runApp(GetMaterialApp(
-    title: 'Movie Ticket App',
-    initialRoute: Routes.home,
-    getPages: AppPages.pages,
-  ));
+  runApp(
+    GetMaterialApp(
+      title: 'Movie Ticket App',
+      initialRoute: Routes.splash,
+      getPages: AppPages.pages,
+    ),
+  );
 }

@@ -8,4 +8,6 @@ abstract class Routes {
   static const ticket = '/ticket';
   static const myTickets = '/my-tickets';
 // ... các route khác của B/C/D thêm vào đây
+  static const splash = '/splash';
+  static const profile = '/profile';
 }

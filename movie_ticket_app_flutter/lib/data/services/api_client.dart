@@ -1,4 +1,6 @@
 import 'package:movie_ticket_app_client/movie_ticket_app_client.dart';
-/// Client dùng chung toàn app để gọi API. Được khởi tạo trong main().
+import 'package:serverpod_auth_idp_flutter/serverpod_auth_idp_flutter.dart';
+
 late final Client client;
 
+late final FlutterAuthSessionManager authSessionManager;
