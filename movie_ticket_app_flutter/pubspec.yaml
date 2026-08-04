@@ -32,6 +32,7 @@ dependencies:
   get: ^4.7.3
   movie_ticket_app_client:
     path: ../movie_ticket_app_client
+  qr_flutter: ^4.1.0
   serverpod_auth_idp_flutter: ^3.4.11
   serverpod_flutter: ^3.4.11
 
