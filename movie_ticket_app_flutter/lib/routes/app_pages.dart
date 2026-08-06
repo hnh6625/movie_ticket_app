@@ -19,6 +19,10 @@ import '../modules/admin/admin_movie_form_view.dart';
 import '../modules/admin/admin_movie_form_binding.dart';
 import '../modules/admin/admin_showtime_view.dart';
 import '../modules/admin/admin_showtime_binding.dart';
+import '../modules/admin/admin_cinema_view.dart';
+import '../modules/admin/admin_cinema_binding.dart';
+import '../modules/admin/admin_cinema_form_view.dart';
+import '../modules/admin/admin_cinema_form_binding.dart';
 
 import '../modules/splash/splash_binding.dart';
 import '../modules/splash/splash_view.dart';
@@ -123,5 +127,13 @@ class AppPages {
         name: Routes.adminShowtime,
         page: () => const AdminShowtimeView(),
         binding: AdminShowtimeBinding()),
+    GetPage(
+        name: Routes.adminCinema,
+        page: () => const AdminCinemaView(),
+        binding: AdminCinemaBinding()),
+    GetPage(
+        name: Routes.adminCinemaForm,
+        page: () => const AdminCinemaFormView(),
+        binding: AdminCinemaFormBinding()),
   ];
 }

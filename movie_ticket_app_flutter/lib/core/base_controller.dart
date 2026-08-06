@@ -12,7 +12,11 @@ abstract class BaseController extends GetxController {
       isLoading.value = true;
       errorMessage.value = null;
       await action();
-    } catch (e) {
+    } catch (e, stackTrace) {
+      // ignore: avoid_print
+      print('❌ ERROR in $runtimeType: $e');
+      // ignore: avoid_print
+      print(stackTrace);
       errorMessage.value = _friendlyError(e);
     } finally {
       isLoading.value = false;

@@ -122,6 +122,16 @@ class OrderEndpoint extends Endpoint {
           transaction: transaction,
         );
       }
+
+      // Lên lịch tự động chuyển Order sang USED đúng giờ chiếu
+      // (cho nghiệp vụ đánh giá phim sau khi xem)
+      await session.serverpod.futureCallAtTime(
+        'markOrderUsed',
+        OrderUsedPayload(orderId: order.id!),
+        showtime.startTime,
+        identifier: 'order_${order.id}',
+      );
+
       // Gửi email vé (không chặn response nếu gửi lỗi)
       final profile = await UserProfile.db.findFirstRow(
         session,
@@ -141,7 +151,6 @@ class OrderEndpoint extends Endpoint {
       };
     });
   }
-
 
   Future<Order?> getById(Session session, int id) async {
     return Order.db.findById(session, id);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'home_controller.dart';
+import '../../routes/app_routes.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -10,6 +11,18 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Trang chủ'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.confirmation_number_outlined),
+            tooltip: 'Vé của tôi',
+            onPressed: () => Get.toNamed(Routes.myTickets),
+          ),
+          IconButton(
+            icon: const Icon(Icons.person_outline),
+            tooltip: 'Cá nhân',
+            onPressed: () => Get.toNamed(Routes.profile),
+          ),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48),
           child: Obx(() => Row(

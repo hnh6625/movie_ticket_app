@@ -15,6 +15,7 @@ class ProfileController extends BaseController {
   final isEditing = false.obs;
   final avatarUrl = RxnString();
   final _hasExistingProfile = false.obs;
+  final isAdmin = false.obs;
 
   @override
   void onInit() {
@@ -44,10 +45,15 @@ class ProfileController extends BaseController {
       phoneCtrl.text = profile.phone ?? '';
       emailCtrl.text = profile.email;
       avatarUrl.value = profile.avatarUrl;
+      isAdmin.value = profile.role == 'ADMIN';
     });
   }
 
   void toggleEdit() => isEditing.value = !isEditing.value;
+
+  void goToAdminMovies() => Get.toNamed(Routes.adminMovie);
+
+  void goToAdminCinemas() => Get.toNamed(Routes.adminCinema);
 
   String? validateName(String? value) {
     if (value == null || value.trim().isEmpty) return 'Vui lòng nhập họ tên';

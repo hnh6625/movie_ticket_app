@@ -70,6 +70,36 @@ class ProfileView extends GetView<ProfileController> {
                 )
                     : const SizedBox.shrink()),
 
+                Obx(() {
+                  if (!controller.isAdmin.value) return const SizedBox.shrink();
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 28),
+                    child: Column(
+                      children: [
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Quản trị', style: TextStyle(
+                              color: AppColors.textSecondary, fontWeight: FontWeight.bold)),
+                        ),
+                        const SizedBox(height: 12),
+                        AppButton(
+                          label: 'Quản lý phim',
+                          outlined: true,
+                          icon: Icons.movie_outlined,
+                          onPressed: controller.goToAdminMovies,
+                        ),
+                        const SizedBox(height: 12),
+                        AppButton(
+                          label: 'Quản lý rạp',
+                          outlined: true,
+                          icon: Icons.theaters_outlined,
+                          onPressed: controller.goToAdminCinemas,
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+
                 const SizedBox(height: 40),
                 AppButton(
                   label: 'Đăng xuất',

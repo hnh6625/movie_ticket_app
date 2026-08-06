@@ -21,6 +21,11 @@ void main() async {
 
   await authSessionManager.initialize();
 
+  await authSessionManager.initializeGoogleSignIn(
+    serverClientId:
+    '786806910667-sibe5f9esfbrtk1s8u1fdrl59opgeg5g.apps.googleusercontent.com',
+  );
+
   runApp(
     GetMaterialApp(
       title: 'Movie Ticket App',

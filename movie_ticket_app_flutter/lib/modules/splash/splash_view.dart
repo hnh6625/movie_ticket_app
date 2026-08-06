@@ -8,6 +8,8 @@ class SplashView extends GetView<SplashController> {
 
   @override
   Widget build(BuildContext context) {
+    controller;
+    
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Center(
