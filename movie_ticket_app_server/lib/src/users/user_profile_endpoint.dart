@@ -24,10 +24,31 @@ class UserProfileEndpoint extends Endpoint {
         String? phone,
         String? avatarUrl,
       }) async {
-    if (!_isValidEmail(email)) {
-      throw Exception('Email không đúng định dạng');
+    final authInfo = session.authenticated;
+    if (authInfo == null) {
+      throw Exception('User not authenticated');
     }
 
+    final profile = await UserProfile.db.findFirstRow(
+      session,
+      where: (t) => t.userIdentifier.equals(authInfo.userIdentifier),
+    );
+
+    if (profile == null) {
+      throw Exception('User profile not found');
+    }
+
+    final updated = profile.copyWith(
+      name: name,
+      email: email,
+      phone: phone,
+      avatarUrl: avatarUrl,
+    );
+
+    return await UserProfile.db.updateRow(session, updated);
+  }
+
+  Future<UserProfile> createMe(Session session) async {
     final authInfo = session.authenticated;
     if (authInfo == null) {
       throw Exception('User not authenticated');
@@ -39,24 +60,17 @@ class UserProfileEndpoint extends Endpoint {
     );
 
     if (existing != null) {
-      final updated = existing.copyWith(
-        name: name,
-        email: email,
-        phone: phone,
-        avatarUrl: avatarUrl,
-      );
-      return UserProfile.db.updateRow(session, updated);
-    } else {
-      final newProfile = UserProfile(
-        userIdentifier: authInfo.userIdentifier,
-        email: email,
-        name: name,
-        phone: phone,
-        avatarUrl: avatarUrl,
-        role: 'USER',
-        createdAt: DateTime.now(),
-      );
-      return UserProfile.db.insertRow(session, newProfile);
+      return existing;
     }
+
+    final profile = UserProfile(
+      userIdentifier: authInfo.userIdentifier,
+      email: '',
+      name: '',
+      role: 'USER',
+      createdAt: DateTime.now(),
+    );
+
+    return await UserProfile.db.insertRow(session, profile);
   }
 }
