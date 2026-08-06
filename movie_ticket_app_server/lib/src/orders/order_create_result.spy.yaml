@@ -1,0 +1,8 @@
+class: OrderCreateResult
+
+fields:
+  success: bool
+  message: String?
+  orderId: int?
+  totalPrice: double?
+  qrCodeData: String?

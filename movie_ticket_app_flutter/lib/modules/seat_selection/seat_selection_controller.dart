@@ -125,17 +125,14 @@ class SeatSelectionController extends BaseController {
         showtimeSeatIds: [...mySelectedShowtimeSeatIds, showtimeSeatId],
       );
 
-      final success = result['success'] as bool? ?? false;
-      if (!success) {
-        final message = result['message'] as String? ?? 'Không thể giữ ghế này';
-        errorMessage.value = message;
+      if (!result.success) {
+        errorMessage.value = result.message ?? 'Không thể giữ ghế này';
         await _fetchSeatsAndMerge(); // refresh ngay để thấy trạng thái mới nhất
         return;
       }
 
       mySelectedShowtimeSeatIds.add(showtimeSeatId);
-      final expiredAtStr = result['expiredAt'] as String;
-      _startCountdown(DateTime.parse(expiredAtStr));
+      _startCountdown(result.expiredAt!);
       await _fetchSeatsAndMerge();
     });
   }

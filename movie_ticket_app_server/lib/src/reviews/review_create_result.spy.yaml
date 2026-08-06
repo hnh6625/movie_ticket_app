@@ -1,0 +1,6 @@
+class: ReviewCreateResult
+
+fields:
+  success: bool
+  message: String?
+  reviewId: int?

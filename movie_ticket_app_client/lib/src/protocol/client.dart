@@ -26,15 +26,21 @@ import 'package:movie_ticket_app_client/src/protocol/concessions/concession.dart
     as _i9;
 import 'package:movie_ticket_app_client/src/protocol/greetings/greeting.dart'
     as _i10;
-import 'package:movie_ticket_app_client/src/protocol/protocol.dart' as _i11;
-import 'package:movie_ticket_app_client/src/protocol/orders/order.dart' as _i12;
-import 'package:movie_ticket_app_client/src/protocol/reviews/review.dart'
-    as _i13;
-import 'package:movie_ticket_app_client/src/protocol/showtimes/showtime_seat.dart'
+import 'package:movie_ticket_app_client/src/protocol/orders/order_create_result.dart'
+    as _i11;
+import 'package:movie_ticket_app_client/src/protocol/protocol.dart' as _i12;
+import 'package:movie_ticket_app_client/src/protocol/orders/order.dart' as _i13;
+import 'package:movie_ticket_app_client/src/protocol/reviews/review_create_result.dart'
     as _i14;
-import 'package:movie_ticket_app_client/src/protocol/users/user_profile.dart'
+import 'package:movie_ticket_app_client/src/protocol/reviews/review.dart'
     as _i15;
-import 'protocol.dart' as _i16;
+import 'package:movie_ticket_app_client/src/protocol/showtimes/showtime_seat.dart'
+    as _i16;
+import 'package:movie_ticket_app_client/src/protocol/showtimes/seat_hold_result.dart'
+    as _i17;
+import 'package:movie_ticket_app_client/src/protocol/users/user_profile.dart'
+    as _i18;
+import 'protocol.dart' as _i19;
 
 /// {@category Endpoint}
 class EndpointAdminCinema extends _i1.EndpointRef {
@@ -470,33 +476,33 @@ class EndpointOrder extends _i1.EndpointRef {
   @override
   String get name => 'order';
 
-  _i2.Future<Map<String, dynamic>> create({
+  _i2.Future<_i11.OrderCreateResult> create({
     required int showtimeId,
     required List<int> showtimeSeatIds,
     required Map<int, int> concessionQuantities,
     required String paymentMethod,
-  }) => caller.callServerEndpoint<Map<String, dynamic>>(
+  }) => caller.callServerEndpoint<_i11.OrderCreateResult>(
     'order',
     'create',
     {
       'showtimeId': showtimeId,
       'showtimeSeatIds': showtimeSeatIds,
-      'concessionQuantities': _i11.Protocol().mapContainerToJson(
+      'concessionQuantities': _i12.Protocol().mapContainerToJson(
         concessionQuantities,
       ),
       'paymentMethod': paymentMethod,
     },
   );
 
-  _i2.Future<_i12.Order?> getById(int id) =>
-      caller.callServerEndpoint<_i12.Order?>(
+  _i2.Future<_i13.Order?> getById(int id) =>
+      caller.callServerEndpoint<_i13.Order?>(
         'order',
         'getById',
         {'id': id},
       );
 
-  _i2.Future<List<_i12.Order>> getMyOrders() =>
-      caller.callServerEndpoint<List<_i12.Order>>(
+  _i2.Future<List<_i13.Order>> getMyOrders() =>
+      caller.callServerEndpoint<List<_i13.Order>>(
         'order',
         'getMyOrders',
         {},
@@ -510,11 +516,11 @@ class EndpointReview extends _i1.EndpointRef {
   @override
   String get name => 'review';
 
-  _i2.Future<Map<String, dynamic>> create({
+  _i2.Future<_i14.ReviewCreateResult> create({
     required int movieId,
     required int rating,
     required String comment,
-  }) => caller.callServerEndpoint<Map<String, dynamic>>(
+  }) => caller.callServerEndpoint<_i14.ReviewCreateResult>(
     'review',
     'create',
     {
@@ -524,8 +530,8 @@ class EndpointReview extends _i1.EndpointRef {
     },
   );
 
-  _i2.Future<List<_i13.Review>> getByMovie(int movieId) =>
-      caller.callServerEndpoint<List<_i13.Review>>(
+  _i2.Future<List<_i15.Review>> getByMovie(int movieId) =>
+      caller.callServerEndpoint<List<_i15.Review>>(
         'review',
         'getByMovie',
         {'movieId': movieId},
@@ -551,17 +557,17 @@ class EndpointShowtime extends _i1.EndpointRef {
     },
   );
 
-  _i2.Future<List<_i14.ShowtimeSeat>> getSeats(int showtimeId) =>
-      caller.callServerEndpoint<List<_i14.ShowtimeSeat>>(
+  _i2.Future<List<_i16.ShowtimeSeat>> getSeats(int showtimeId) =>
+      caller.callServerEndpoint<List<_i16.ShowtimeSeat>>(
         'showtime',
         'getSeats',
         {'showtimeId': showtimeId},
       );
 
-  _i2.Future<Map<String, dynamic>> holdSeats({
+  _i2.Future<_i17.SeatHoldResult> holdSeats({
     required int showtimeId,
     required List<int> showtimeSeatIds,
-  }) => caller.callServerEndpoint<Map<String, dynamic>>(
+  }) => caller.callServerEndpoint<_i17.SeatHoldResult>(
     'showtime',
     'holdSeats',
     {
@@ -592,19 +598,19 @@ class EndpointUserProfile extends _i1.EndpointRef {
   @override
   String get name => 'userProfile';
 
-  _i2.Future<_i15.UserProfile?> getMe() =>
-      caller.callServerEndpoint<_i15.UserProfile?>(
+  _i2.Future<_i18.UserProfile?> getMe() =>
+      caller.callServerEndpoint<_i18.UserProfile?>(
         'userProfile',
         'getMe',
         {},
       );
 
-  _i2.Future<_i15.UserProfile> updateMe({
+  _i2.Future<_i18.UserProfile> updateMe({
     required String name,
     required String email,
     String? phone,
     String? avatarUrl,
-  }) => caller.callServerEndpoint<_i15.UserProfile>(
+  }) => caller.callServerEndpoint<_i18.UserProfile>(
     'userProfile',
     'updateMe',
     {
@@ -647,7 +653,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i16.Protocol(),
+         _i19.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,

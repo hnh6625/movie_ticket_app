@@ -24,27 +24,30 @@ import 'greetings/greeting.dart' as _i9;
 import 'movies/movie.dart' as _i10;
 import 'orders/order.dart' as _i11;
 import 'orders/order_concession.dart' as _i12;
-import 'orders/order_seat.dart' as _i13;
-import 'orders/order_used_payload.dart' as _i14;
-import 'reviews/review.dart' as _i15;
-import 'showtimes/showtime.dart' as _i16;
-import 'showtimes/showtime_seat.dart' as _i17;
-import 'showtimes/showtime_seat_release_payload.dart' as _i18;
-import 'users/user_profile.dart' as _i19;
+import 'orders/order_create_result.dart' as _i13;
+import 'orders/order_seat.dart' as _i14;
+import 'orders/order_used_payload.dart' as _i15;
+import 'reviews/review.dart' as _i16;
+import 'reviews/review_create_result.dart' as _i17;
+import 'showtimes/seat_hold_result.dart' as _i18;
+import 'showtimes/showtime.dart' as _i19;
+import 'showtimes/showtime_seat.dart' as _i20;
+import 'showtimes/showtime_seat_release_payload.dart' as _i21;
+import 'users/user_profile.dart' as _i22;
 import 'package:movie_ticket_app_server/src/generated/cinemas/cinema.dart'
-    as _i20;
-import 'package:movie_ticket_app_server/src/generated/concessions/concession.dart'
-    as _i21;
-import 'package:movie_ticket_app_server/src/generated/movies/movie.dart'
-    as _i22;
-import 'package:movie_ticket_app_server/src/generated/orders/order.dart'
     as _i23;
-import 'package:movie_ticket_app_server/src/generated/reviews/review.dart'
+import 'package:movie_ticket_app_server/src/generated/concessions/concession.dart'
     as _i24;
-import 'package:movie_ticket_app_server/src/generated/showtimes/showtime.dart'
+import 'package:movie_ticket_app_server/src/generated/movies/movie.dart'
     as _i25;
-import 'package:movie_ticket_app_server/src/generated/showtimes/showtime_seat.dart'
+import 'package:movie_ticket_app_server/src/generated/orders/order.dart'
     as _i26;
+import 'package:movie_ticket_app_server/src/generated/reviews/review.dart'
+    as _i27;
+import 'package:movie_ticket_app_server/src/generated/showtimes/showtime.dart'
+    as _i28;
+import 'package:movie_ticket_app_server/src/generated/showtimes/showtime_seat.dart'
+    as _i29;
 export 'cinemas/cinema.dart';
 export 'cinemas/room.dart';
 export 'cinemas/seat.dart';
@@ -53,9 +56,12 @@ export 'greetings/greeting.dart';
 export 'movies/movie.dart';
 export 'orders/order.dart';
 export 'orders/order_concession.dart';
+export 'orders/order_create_result.dart';
 export 'orders/order_seat.dart';
 export 'orders/order_used_payload.dart';
 export 'reviews/review.dart';
+export 'reviews/review_create_result.dart';
+export 'showtimes/seat_hold_result.dart';
 export 'showtimes/showtime.dart';
 export 'showtimes/showtime_seat.dart';
 export 'showtimes/showtime_seat_release_payload.dart';
@@ -1007,26 +1013,35 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i12.OrderConcession) {
       return _i12.OrderConcession.fromJson(data) as T;
     }
-    if (t == _i13.OrderSeat) {
-      return _i13.OrderSeat.fromJson(data) as T;
+    if (t == _i13.OrderCreateResult) {
+      return _i13.OrderCreateResult.fromJson(data) as T;
     }
-    if (t == _i14.OrderUsedPayload) {
-      return _i14.OrderUsedPayload.fromJson(data) as T;
+    if (t == _i14.OrderSeat) {
+      return _i14.OrderSeat.fromJson(data) as T;
     }
-    if (t == _i15.Review) {
-      return _i15.Review.fromJson(data) as T;
+    if (t == _i15.OrderUsedPayload) {
+      return _i15.OrderUsedPayload.fromJson(data) as T;
     }
-    if (t == _i16.Showtime) {
-      return _i16.Showtime.fromJson(data) as T;
+    if (t == _i16.Review) {
+      return _i16.Review.fromJson(data) as T;
     }
-    if (t == _i17.ShowtimeSeat) {
-      return _i17.ShowtimeSeat.fromJson(data) as T;
+    if (t == _i17.ReviewCreateResult) {
+      return _i17.ReviewCreateResult.fromJson(data) as T;
     }
-    if (t == _i18.ShowtimeSeatReleasePayload) {
-      return _i18.ShowtimeSeatReleasePayload.fromJson(data) as T;
+    if (t == _i18.SeatHoldResult) {
+      return _i18.SeatHoldResult.fromJson(data) as T;
     }
-    if (t == _i19.UserProfile) {
-      return _i19.UserProfile.fromJson(data) as T;
+    if (t == _i19.Showtime) {
+      return _i19.Showtime.fromJson(data) as T;
+    }
+    if (t == _i20.ShowtimeSeat) {
+      return _i20.ShowtimeSeat.fromJson(data) as T;
+    }
+    if (t == _i21.ShowtimeSeatReleasePayload) {
+      return _i21.ShowtimeSeatReleasePayload.fromJson(data) as T;
+    }
+    if (t == _i22.UserProfile) {
+      return _i22.UserProfile.fromJson(data) as T;
     }
     if (t == _i1.getType<_i5.Cinema?>()) {
       return (data != null ? _i5.Cinema.fromJson(data) : null) as T;
@@ -1052,29 +1067,39 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i12.OrderConcession?>()) {
       return (data != null ? _i12.OrderConcession.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i13.OrderSeat?>()) {
-      return (data != null ? _i13.OrderSeat.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i13.OrderCreateResult?>()) {
+      return (data != null ? _i13.OrderCreateResult.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i14.OrderUsedPayload?>()) {
-      return (data != null ? _i14.OrderUsedPayload.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i14.OrderSeat?>()) {
+      return (data != null ? _i14.OrderSeat.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i15.Review?>()) {
-      return (data != null ? _i15.Review.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i15.OrderUsedPayload?>()) {
+      return (data != null ? _i15.OrderUsedPayload.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i16.Showtime?>()) {
-      return (data != null ? _i16.Showtime.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i16.Review?>()) {
+      return (data != null ? _i16.Review.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i17.ShowtimeSeat?>()) {
-      return (data != null ? _i17.ShowtimeSeat.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i17.ReviewCreateResult?>()) {
+      return (data != null ? _i17.ReviewCreateResult.fromJson(data) : null)
+          as T;
     }
-    if (t == _i1.getType<_i18.ShowtimeSeatReleasePayload?>()) {
+    if (t == _i1.getType<_i18.SeatHoldResult?>()) {
+      return (data != null ? _i18.SeatHoldResult.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i19.Showtime?>()) {
+      return (data != null ? _i19.Showtime.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i20.ShowtimeSeat?>()) {
+      return (data != null ? _i20.ShowtimeSeat.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i21.ShowtimeSeatReleasePayload?>()) {
       return (data != null
-              ? _i18.ShowtimeSeatReleasePayload.fromJson(data)
+              ? _i21.ShowtimeSeatReleasePayload.fromJson(data)
               : null)
           as T;
     }
-    if (t == _i1.getType<_i19.UserProfile?>()) {
-      return (data != null ? _i19.UserProfile.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i22.UserProfile?>()) {
+      return (data != null ? _i22.UserProfile.fromJson(data) : null) as T;
     }
     if (t == List<_i6.Room>) {
       return (data as List).map((e) => deserialize<_i6.Room>(e)).toList() as T;
@@ -1094,50 +1119,50 @@ class Protocol extends _i1.SerializationManagerServer {
               : null)
           as T;
     }
-    if (t == List<_i16.Showtime>) {
-      return (data as List).map((e) => deserialize<_i16.Showtime>(e)).toList()
+    if (t == List<_i19.Showtime>) {
+      return (data as List).map((e) => deserialize<_i19.Showtime>(e)).toList()
           as T;
     }
-    if (t == _i1.getType<List<_i16.Showtime>?>()) {
+    if (t == _i1.getType<List<_i19.Showtime>?>()) {
       return (data != null
               ? (data as List)
-                    .map((e) => deserialize<_i16.Showtime>(e))
+                    .map((e) => deserialize<_i19.Showtime>(e))
                     .toList()
               : null)
           as T;
     }
-    if (t == List<_i17.ShowtimeSeat>) {
+    if (t == List<_i20.ShowtimeSeat>) {
       return (data as List)
-              .map((e) => deserialize<_i17.ShowtimeSeat>(e))
+              .map((e) => deserialize<_i20.ShowtimeSeat>(e))
               .toList()
           as T;
     }
-    if (t == _i1.getType<List<_i17.ShowtimeSeat>?>()) {
+    if (t == _i1.getType<List<_i20.ShowtimeSeat>?>()) {
       return (data != null
               ? (data as List)
-                    .map((e) => deserialize<_i17.ShowtimeSeat>(e))
+                    .map((e) => deserialize<_i20.ShowtimeSeat>(e))
                     .toList()
               : null)
           as T;
     }
-    if (t == List<_i15.Review>) {
-      return (data as List).map((e) => deserialize<_i15.Review>(e)).toList()
+    if (t == List<_i16.Review>) {
+      return (data as List).map((e) => deserialize<_i16.Review>(e)).toList()
           as T;
     }
-    if (t == _i1.getType<List<_i15.Review>?>()) {
+    if (t == _i1.getType<List<_i16.Review>?>()) {
       return (data != null
-              ? (data as List).map((e) => deserialize<_i15.Review>(e)).toList()
+              ? (data as List).map((e) => deserialize<_i16.Review>(e)).toList()
               : null)
           as T;
     }
-    if (t == List<_i13.OrderSeat>) {
-      return (data as List).map((e) => deserialize<_i13.OrderSeat>(e)).toList()
+    if (t == List<_i14.OrderSeat>) {
+      return (data as List).map((e) => deserialize<_i14.OrderSeat>(e)).toList()
           as T;
     }
-    if (t == _i1.getType<List<_i13.OrderSeat>?>()) {
+    if (t == _i1.getType<List<_i14.OrderSeat>?>()) {
       return (data != null
               ? (data as List)
-                    .map((e) => deserialize<_i13.OrderSeat>(e))
+                    .map((e) => deserialize<_i14.OrderSeat>(e))
                     .toList()
               : null)
           as T;
@@ -1166,22 +1191,16 @@ class Protocol extends _i1.SerializationManagerServer {
               : null)
           as T;
     }
-    if (t == List<_i20.Cinema>) {
-      return (data as List).map((e) => deserialize<_i20.Cinema>(e)).toList()
+    if (t == List<_i23.Cinema>) {
+      return (data as List).map((e) => deserialize<_i23.Cinema>(e)).toList()
           as T;
     }
-    if (t == List<_i21.Concession>) {
-      return (data as List).map((e) => deserialize<_i21.Concession>(e)).toList()
+    if (t == List<_i24.Concession>) {
+      return (data as List).map((e) => deserialize<_i24.Concession>(e)).toList()
           as T;
     }
-    if (t == List<_i22.Movie>) {
-      return (data as List).map((e) => deserialize<_i22.Movie>(e)).toList()
-          as T;
-    }
-    if (t == Map<String, dynamic>) {
-      return (data as Map).map(
-            (k, v) => MapEntry(deserialize<String>(k), deserialize<dynamic>(v)),
-          )
+    if (t == List<_i25.Movie>) {
+      return (data as List).map((e) => deserialize<_i25.Movie>(e)).toList()
           as T;
     }
     if (t == List<int>) {
@@ -1196,21 +1215,21 @@ class Protocol extends _i1.SerializationManagerServer {
           )
           as T;
     }
-    if (t == List<_i23.Order>) {
-      return (data as List).map((e) => deserialize<_i23.Order>(e)).toList()
+    if (t == List<_i26.Order>) {
+      return (data as List).map((e) => deserialize<_i26.Order>(e)).toList()
           as T;
     }
-    if (t == List<_i24.Review>) {
-      return (data as List).map((e) => deserialize<_i24.Review>(e)).toList()
+    if (t == List<_i27.Review>) {
+      return (data as List).map((e) => deserialize<_i27.Review>(e)).toList()
           as T;
     }
-    if (t == List<_i25.Showtime>) {
-      return (data as List).map((e) => deserialize<_i25.Showtime>(e)).toList()
+    if (t == List<_i28.Showtime>) {
+      return (data as List).map((e) => deserialize<_i28.Showtime>(e)).toList()
           as T;
     }
-    if (t == List<_i26.ShowtimeSeat>) {
+    if (t == List<_i29.ShowtimeSeat>) {
       return (data as List)
-              .map((e) => deserialize<_i26.ShowtimeSeat>(e))
+              .map((e) => deserialize<_i29.ShowtimeSeat>(e))
               .toList()
           as T;
     }
@@ -1236,13 +1255,16 @@ class Protocol extends _i1.SerializationManagerServer {
       _i10.Movie => 'Movie',
       _i11.Order => 'Order',
       _i12.OrderConcession => 'OrderConcession',
-      _i13.OrderSeat => 'OrderSeat',
-      _i14.OrderUsedPayload => 'OrderUsedPayload',
-      _i15.Review => 'Review',
-      _i16.Showtime => 'Showtime',
-      _i17.ShowtimeSeat => 'ShowtimeSeat',
-      _i18.ShowtimeSeatReleasePayload => 'ShowtimeSeatReleasePayload',
-      _i19.UserProfile => 'UserProfile',
+      _i13.OrderCreateResult => 'OrderCreateResult',
+      _i14.OrderSeat => 'OrderSeat',
+      _i15.OrderUsedPayload => 'OrderUsedPayload',
+      _i16.Review => 'Review',
+      _i17.ReviewCreateResult => 'ReviewCreateResult',
+      _i18.SeatHoldResult => 'SeatHoldResult',
+      _i19.Showtime => 'Showtime',
+      _i20.ShowtimeSeat => 'ShowtimeSeat',
+      _i21.ShowtimeSeatReleasePayload => 'ShowtimeSeatReleasePayload',
+      _i22.UserProfile => 'UserProfile',
       _ => null,
     };
   }
@@ -1276,19 +1298,25 @@ class Protocol extends _i1.SerializationManagerServer {
         return 'Order';
       case _i12.OrderConcession():
         return 'OrderConcession';
-      case _i13.OrderSeat():
+      case _i13.OrderCreateResult():
+        return 'OrderCreateResult';
+      case _i14.OrderSeat():
         return 'OrderSeat';
-      case _i14.OrderUsedPayload():
+      case _i15.OrderUsedPayload():
         return 'OrderUsedPayload';
-      case _i15.Review():
+      case _i16.Review():
         return 'Review';
-      case _i16.Showtime():
+      case _i17.ReviewCreateResult():
+        return 'ReviewCreateResult';
+      case _i18.SeatHoldResult():
+        return 'SeatHoldResult';
+      case _i19.Showtime():
         return 'Showtime';
-      case _i17.ShowtimeSeat():
+      case _i20.ShowtimeSeat():
         return 'ShowtimeSeat';
-      case _i18.ShowtimeSeatReleasePayload():
+      case _i21.ShowtimeSeatReleasePayload():
         return 'ShowtimeSeatReleasePayload';
-      case _i19.UserProfile():
+      case _i22.UserProfile():
         return 'UserProfile';
     }
     className = _i2.Protocol().getClassNameForObject(data);
@@ -1336,26 +1364,35 @@ class Protocol extends _i1.SerializationManagerServer {
     if (dataClassName == 'OrderConcession') {
       return deserialize<_i12.OrderConcession>(data['data']);
     }
+    if (dataClassName == 'OrderCreateResult') {
+      return deserialize<_i13.OrderCreateResult>(data['data']);
+    }
     if (dataClassName == 'OrderSeat') {
-      return deserialize<_i13.OrderSeat>(data['data']);
+      return deserialize<_i14.OrderSeat>(data['data']);
     }
     if (dataClassName == 'OrderUsedPayload') {
-      return deserialize<_i14.OrderUsedPayload>(data['data']);
+      return deserialize<_i15.OrderUsedPayload>(data['data']);
     }
     if (dataClassName == 'Review') {
-      return deserialize<_i15.Review>(data['data']);
+      return deserialize<_i16.Review>(data['data']);
+    }
+    if (dataClassName == 'ReviewCreateResult') {
+      return deserialize<_i17.ReviewCreateResult>(data['data']);
+    }
+    if (dataClassName == 'SeatHoldResult') {
+      return deserialize<_i18.SeatHoldResult>(data['data']);
     }
     if (dataClassName == 'Showtime') {
-      return deserialize<_i16.Showtime>(data['data']);
+      return deserialize<_i19.Showtime>(data['data']);
     }
     if (dataClassName == 'ShowtimeSeat') {
-      return deserialize<_i17.ShowtimeSeat>(data['data']);
+      return deserialize<_i20.ShowtimeSeat>(data['data']);
     }
     if (dataClassName == 'ShowtimeSeatReleasePayload') {
-      return deserialize<_i18.ShowtimeSeatReleasePayload>(data['data']);
+      return deserialize<_i21.ShowtimeSeatReleasePayload>(data['data']);
     }
     if (dataClassName == 'UserProfile') {
-      return deserialize<_i19.UserProfile>(data['data']);
+      return deserialize<_i22.UserProfile>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
@@ -1407,16 +1444,16 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i11.Order.t;
       case _i12.OrderConcession:
         return _i12.OrderConcession.t;
-      case _i13.OrderSeat:
-        return _i13.OrderSeat.t;
-      case _i15.Review:
-        return _i15.Review.t;
-      case _i16.Showtime:
-        return _i16.Showtime.t;
-      case _i17.ShowtimeSeat:
-        return _i17.ShowtimeSeat.t;
-      case _i19.UserProfile:
-        return _i19.UserProfile.t;
+      case _i14.OrderSeat:
+        return _i14.OrderSeat.t;
+      case _i16.Review:
+        return _i16.Review.t;
+      case _i19.Showtime:
+        return _i19.Showtime.t;
+      case _i20.ShowtimeSeat:
+        return _i20.ShowtimeSeat.t;
+      case _i22.UserProfile:
+        return _i22.UserProfile.t;
     }
     return null;
   }

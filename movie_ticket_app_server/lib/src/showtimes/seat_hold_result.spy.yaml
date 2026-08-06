@@ -1,0 +1,6 @@
+class: SeatHoldResult
+
+fields:
+  success: bool
+  message: String?
+  expiredAt: DateTime?

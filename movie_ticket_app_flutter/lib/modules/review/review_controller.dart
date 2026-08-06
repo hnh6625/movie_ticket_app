@@ -32,9 +32,8 @@ class ReviewController extends BaseController {
         comment: myCommentController.text.trim(),
       );
 
-      final success = result['success'] == true;
-      if (!success) {
-        errorMessage.value = result['message'] as String? ?? 'Không thể gửi đánh giá';
+      if (!result.success) {
+        errorMessage.value = result.message ?? 'Không thể gửi đánh giá';
         return;
       }
 

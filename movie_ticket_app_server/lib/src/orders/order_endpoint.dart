@@ -16,7 +16,7 @@ double _seatTypeMultiplier(String seatType) {
 }
 
 class OrderEndpoint extends Endpoint {
-  Future<Map<String, dynamic>> create(
+  Future<OrderCreateResult> create(
       Session session, {
         required int showtimeId,
         required List<int> showtimeSeatIds,
@@ -25,12 +25,12 @@ class OrderEndpoint extends Endpoint {
       }) async {
     final authInfo = session.authenticated;
     if (authInfo == null) {
-      return {'success': false, 'message': 'Chưa đăng nhập'};
+      return OrderCreateResult(success: false, message: 'Chưa đăng nhập');
     }
 
     final showtime = await Showtime.db.findById(session, showtimeId);
     if (showtime == null) {
-      return {'success': false, 'message': 'Suất chiếu không tồn tại'};
+      return OrderCreateResult(success: false, message: 'Suất chiếu không tồn tại');
     }
 
     return await session.db.transaction((transaction) async {
@@ -41,15 +41,15 @@ class OrderEndpoint extends Endpoint {
       for (final id in showtimeSeatIds) {
         final showtimeSeat = await ShowtimeSeat.db.findById(session, id, transaction: transaction);
         if (showtimeSeat == null) {
-          return {'success': false, 'message': 'Ghế không tồn tại'};
+          return OrderCreateResult(success: false, message: 'Ghế không tồn tại');
         }
         if (showtimeSeat.status != 'HELD' ||
             showtimeSeat.heldByUserId != authInfo.userIdentifier) {
-          return {'success': false, 'message': 'Một số ghế không còn được giữ bởi bạn, vui lòng chọn lại'};
+          return OrderCreateResult(success: false, message: 'Một số ghế không còn được giữ bởi bạn, vui lòng chọn lại');
         }
         if (showtimeSeat.holdExpiredAt != null &&
             showtimeSeat.holdExpiredAt!.isBefore(DateTime.now())) {
-          return {'success': false, 'message': 'Thời gian giữ ghế đã hết hạn, vui lòng chọn lại'};
+          return OrderCreateResult(success: false, message: 'Thời gian giữ ghế đã hết hạn, vui lòng chọn lại');
         }
 
         final seat = await Seat.db.findById(session, showtimeSeat.seatId, transaction: transaction);
@@ -122,9 +122,8 @@ class OrderEndpoint extends Endpoint {
           transaction: transaction,
         );
       }
-
       // Lên lịch tự động chuyển Order sang USED đúng giờ chiếu
-      // (cho nghiệp vụ đánh giá phim sau khi xem)
+      // (mở khóa nghiệp vụ đánh giá phim sau khi xem)
       await session.serverpod.futureCallAtTime(
         'markOrderUsed',
         OrderUsedPayload(orderId: order.id!),
@@ -143,14 +142,15 @@ class OrderEndpoint extends Endpoint {
         unawaited(sendTicketEmail(session, updatedOrder, profile.email));
       }
 
-      return {
-        'success': true,
-        'orderId': order.id,
-        'totalPrice': totalPrice,
-        'qrCodeData': updatedOrder.qrCodeData,
-      };
+      return OrderCreateResult(
+        success: true,
+        orderId: order.id,
+        totalPrice: totalPrice,
+        qrCodeData: updatedOrder.qrCodeData,
+      );
     });
   }
+
 
   Future<Order?> getById(Session session, int id) async {
     return Order.db.findById(session, id);

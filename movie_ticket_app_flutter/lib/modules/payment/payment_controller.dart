@@ -42,14 +42,13 @@ class PaymentController extends BaseController {
         paymentMethod: 'QR_MOCK',
       );
 
-      final success = result['success'] as bool? ?? false;
-      if (!success) {
-        errorMessage.value = result['message'] as String? ?? 'Thanh toán thất bại';
+      if (!result.success) {
+        errorMessage.value = result.message ?? 'Thanh toán thất bại';
         isProcessing.value = false;
         return;
       }
 
-      final orderId = result['orderId'] as int;
+      final orderId = result.orderId!;
       isProcessing.value = false;
       Get.offNamed('/ticket', arguments: {'orderId': orderId});
     });

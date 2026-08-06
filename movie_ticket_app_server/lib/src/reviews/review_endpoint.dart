@@ -2,7 +2,7 @@ import 'package:serverpod/serverpod.dart' hide Order;
 import '../generated/protocol.dart';
 
 class ReviewEndpoint extends Endpoint {
-  Future<Map<String, dynamic>> create(
+  Future<ReviewCreateResult> create(
       Session session, {
         required int movieId,
         required int rating,
@@ -10,7 +10,7 @@ class ReviewEndpoint extends Endpoint {
       }) async {
     final authInfo = session.authenticated;
     if (authInfo == null) {
-      return {'success': false, 'message': 'Chưa đăng nhập'};
+      return ReviewCreateResult(success: false, message: 'Chưa đăng nhập');
     }
 
     // 1. Lấy toàn bộ showtimeId thuộc phim này
@@ -26,7 +26,7 @@ class ReviewEndpoint extends Endpoint {
     // 3. Kiểm tra có Order nào gắn với showtime của phim này không
     final hasWatched = usedOrders.any((order) => showtimeIds.contains(order.showtimeId));
     if (!hasWatched) {
-      return {'success': false, 'message': 'Bạn cần xem phim này trước khi đánh giá'};
+      return ReviewCreateResult(success: false, message: 'Bạn cần xem phim này trước khi đánh giá');
     }
 
     // 4. Kiểm tra chưa review trước đó (tránh lỗi unique constraint khó hiểu)
@@ -35,7 +35,7 @@ class ReviewEndpoint extends Endpoint {
       where: (t) => t.movieId.equals(movieId) & t.userIdentifier.equals(authInfo.userIdentifier),
     );
     if (existing != null) {
-      return {'success': false, 'message': 'Bạn đã đánh giá phim này rồi'};
+      return ReviewCreateResult(success: false, message: 'Bạn đã đánh giá phim này rồi');
     }
 
     final review = await Review.db.insertRow(
@@ -49,7 +49,7 @@ class ReviewEndpoint extends Endpoint {
       ),
     );
 
-    return {'success': true, 'reviewId': review.id};
+    return ReviewCreateResult(success: true, reviewId: review.id);
   }
 
   Future<List<Review>> getByMovie(Session session, int movieId) async {

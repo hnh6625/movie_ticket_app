@@ -37,18 +37,18 @@ class ShowtimeEndpoint extends Endpoint {
     return ShowtimeSeat.db.find(session, where: (t) => t.showtimeId.equals(showtimeId));
   }
 
-  Future<Map<String, dynamic>> holdSeats(
+  Future<SeatHoldResult> holdSeats(
       Session session, {
         required int showtimeId,
         required List<int> showtimeSeatIds,
       }) async {
     final authInfo = session.authenticated;
     if (authInfo == null) {
-      return {'success': false, 'message': 'Chưa đăng nhập'};
+      return SeatHoldResult(success: false, message: 'Chưa đăng nhập');
     }
 
     if (showtimeSeatIds.length > maxSeatsPerHold) {
-      return {'success': false, 'message': 'Chỉ được chọn tối đa $maxSeatsPerHold ghế'};
+      return SeatHoldResult(success: false, message: 'Chỉ được chọn tối đa $maxSeatsPerHold ghế');
     }
 
     final newExpiry = DateTime.now().add(const Duration(minutes: holdDurationMinutes));
@@ -57,13 +57,13 @@ class ShowtimeEndpoint extends Endpoint {
       for (final id in showtimeSeatIds) {
         final seat = await ShowtimeSeat.db.findById(session, id, transaction: transaction);
         if (seat == null) {
-          return {'success': false, 'message': 'Ghế không tồn tại'};
+          return SeatHoldResult(success: false, message: 'Ghế không tồn tại');
         }
         if (seat.status == 'BOOKED') {
-          return {'success': false, 'message': 'Ghế đã được đặt'};
+          return SeatHoldResult(success: false, message: 'Ghế đã được đặt');
         }
         if (seat.status == 'HELD' && seat.heldByUserId != authInfo.userIdentifier) {
-          return {'success': false, 'message': 'Ghế đang được người khác giữ'};
+          return SeatHoldResult(success: false, message: 'Ghế đang được người khác giữ');
         }
       }
 
@@ -86,7 +86,7 @@ class ShowtimeEndpoint extends Endpoint {
         );
       }
 
-      return {'success': true, 'expiredAt': newExpiry.toIso8601String()};
+      return SeatHoldResult(success: true, expiredAt: newExpiry);
     });
   }
 
