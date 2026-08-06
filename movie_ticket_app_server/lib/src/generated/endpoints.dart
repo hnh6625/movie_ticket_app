@@ -1007,6 +1007,16 @@ class Endpoints extends _i1.EndpointDispatch {
                     avatarUrl: params['avatarUrl'],
                   ),
         ),
+        'createMe': _i1.MethodConnector(
+          name: 'createMe',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['userProfile'] as _i15.UserProfileEndpoint)
+                  .createMe(session),
+        ),
       },
     );
     modules['serverpod_auth_idp'] = _i19.Endpoints()

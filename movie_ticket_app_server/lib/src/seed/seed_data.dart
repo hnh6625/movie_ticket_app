@@ -14,6 +14,8 @@ Future<void> seedMovies(Session session) async {
       'release': DateTime(2026, 5, 1),
       'status': 'SHOWING',
       'rating': 4.5,
+      'color': '1a1a2e',
+      'trailer': '4jVs_LB2BHg',
     },
     {
       'title': 'Zootopia 2',
@@ -23,6 +25,8 @@ Future<void> seedMovies(Session session) async {
       'release': DateTime(2026, 11, 1),
       'status': 'SHOWING',
       'rating': 4.2,
+      'color': '2e7d32',
+      'trailer': '50RhV9T5yNw',
     },
     {
       'title': 'Kinh Hoàng Đêm Trăng',
@@ -32,6 +36,8 @@ Future<void> seedMovies(Session session) async {
       'release': DateTime(2026, 3, 15),
       'status': 'SHOWING',
       'rating': 3.9,
+      'color': '4a148c',
+      'trailer': 'e1uMDWjOfG4',
     },
     {
       'title': 'Nhật Ký Tình Yêu',
@@ -41,6 +47,8 @@ Future<void> seedMovies(Session session) async {
       'release': DateTime(2026, 2, 10),
       'status': 'SHOWING',
       'rating': 4.0,
+      'color': 'ad1457',
+      'trailer': 'N-_4hNJisrk',
     },
     {
       'title': 'Cười Xuyên Việt',
@@ -50,6 +58,8 @@ Future<void> seedMovies(Session session) async {
       'release': DateTime(2026, 4, 20),
       'status': 'SHOWING',
       'rating': 4.1,
+      'color': 'f57f17',
+      'trailer': 'LDGuRd4ScjI',
     },
     {
       'title': 'Truy Tìm Kho Báu',
@@ -59,6 +69,8 @@ Future<void> seedMovies(Session session) async {
       'release': DateTime(2026, 9, 5),
       'status': 'COMING_SOON',
       'rating': 0.0,
+      'color': '6d4c41',
+      'trailer': 'UoDgatx8dPw',
     },
     {
       'title': 'Hành Tinh Đỏ',
@@ -68,6 +80,8 @@ Future<void> seedMovies(Session session) async {
       'release': DateTime(2026, 10, 12),
       'status': 'COMING_SOON',
       'rating': 0.0,
+      'color': 'b71c1c',
+      'trailer': 'AEm6Z7pv6qg',
     },
     {
       'title': 'Vụ Án Mất Tích',
@@ -77,15 +91,19 @@ Future<void> seedMovies(Session session) async {
       'release': DateTime(2026, 8, 1),
       'status': 'SHOWING',
       'rating': 4.3,
+      'color': '263238',
+      'trailer': 'HcDpH7akUd0',
     },
   ];
 
   for (final m in movieData) {
+    final title = m['title'] as String;
     await Movie.db.insertRow(session, Movie(
-      title: m['title'] as String,
+      title: title,
       description: m['description'] as String,
-      posterUrl: 'https://via.placeholder.com/300x450',
-      trailerYoutubeId: 'dQw4w9WgXcQ',
+      posterUrl:
+      'https://placehold.co/300x450/${m['color']}/ffffff?text=${Uri.encodeComponent(title)}',
+      trailerYoutubeId: m['trailer'] as String,
       genre: m['genre'] as String,
       durationMinutes: m['duration'] as int,
       releaseDate: m['release'] as DateTime,

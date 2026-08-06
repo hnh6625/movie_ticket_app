@@ -1,10 +1,6 @@
 import '../generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
-
-bool _isValidEmail(String email) {
-  final regex = RegExp(r'^[\w\.\-]+@[\w\-]+\.[a-zA-Z]{2,}$');
-  return regex.hasMatch(email);
-}
+import 'package:serverpod_auth_idp_server/core.dart' as auth_core;
 
 class UserProfileEndpoint extends Endpoint {
   Future<UserProfile?> getMe(Session session) async {
@@ -63,10 +59,18 @@ class UserProfileEndpoint extends Endpoint {
       return existing;
     }
 
+    // Serverpod's built-in auth module already knows the email (and, for
+    // some providers, the full name) that the user registered with.
+    // Pull it in so the app profile is not created empty.
+    final auth_core.UserProfileModel? builtInProfile = await authInfo.userProfile(session);
+
+    final profileEmail = builtInProfile?.email ?? '';
+    final profileName = builtInProfile?.fullName ?? builtInProfile?.userName ?? '';
+
     final profile = UserProfile(
       userIdentifier: authInfo.userIdentifier,
-      email: '',
-      name: '',
+      email: profileEmail,
+      name: profileName,
       role: 'USER',
       createdAt: DateTime.now(),
     );

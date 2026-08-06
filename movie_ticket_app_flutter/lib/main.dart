@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
@@ -7,6 +8,9 @@ import 'package:movie_ticket_app_client/movie_ticket_app_client.dart';
 import 'data/services/api_client.dart';
 import 'routes/app_pages.dart';
 import 'routes/app_routes.dart';
+
+const _googleClientId =
+    '786806910667-sibe5f9esfbrtk1s8u1fdrl59opgeg5g.apps.googleusercontent.com';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,8 +26,8 @@ void main() async {
   await authSessionManager.initialize();
 
   await authSessionManager.initializeGoogleSignIn(
-    serverClientId:
-    '786806910667-sibe5f9esfbrtk1s8u1fdrl59opgeg5g.apps.googleusercontent.com',
+    clientId: _googleClientId,
+    serverClientId: _googleClientId,
   );
 
   runApp(

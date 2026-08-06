@@ -620,6 +620,13 @@ class EndpointUserProfile extends _i1.EndpointRef {
       'avatarUrl': avatarUrl,
     },
   );
+
+  _i2.Future<_i18.UserProfile> createMe() =>
+      caller.callServerEndpoint<_i18.UserProfile>(
+        'userProfile',
+        'createMe',
+        {},
+      );
 }
 
 class Modules {

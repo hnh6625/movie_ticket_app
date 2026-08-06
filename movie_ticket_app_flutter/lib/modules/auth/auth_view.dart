@@ -42,9 +42,6 @@ class AuthView extends StatelessWidget {
                 style: TextStyle(color: AppColors.textSecondary, fontSize: 14),
               ),
               const SizedBox(height: 32),
-
-              // Widget dựng sẵn của Serverpod — tự hiện Login/Register/Forgot
-              // Password + nút Google (chỉ hiện provider nào server đã bật).
               Theme(
                 data: Theme.of(context).copyWith(
                   brightness: Brightness.dark,
@@ -55,7 +52,11 @@ class AuthView extends StatelessWidget {
                 ),
                 child: SignInWidget(
                   client: client,
-                  onAuthenticated: () {
+                  onAuthenticated: () async {
+                    try {
+                      await client.userProfile.createMe();
+                    } catch (_) {
+                    }
                     Get.offAllNamed(Routes.home);
                   },
                   onError: (error) {

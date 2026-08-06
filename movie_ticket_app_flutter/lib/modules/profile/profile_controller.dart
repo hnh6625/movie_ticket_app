@@ -33,12 +33,10 @@ class ProfileController extends BaseController {
 
   Future<void> _loadProfile() async {
     await runSafely(() async {
-      final profile = await client.userProfile.getMe();
+      var profile = await client.userProfile.getMe();
       if (profile == null) {
-        // Lần đầu đăng nhập, chưa có hồ sơ — cho user tự điền rồi Lưu.
-        _hasExistingProfile.value = false;
+        profile = await client.userProfile.createMe();
         isEditing.value = true;
-        return;
       }
       _hasExistingProfile.value = true;
       nameCtrl.text = profile.name;
@@ -95,9 +93,6 @@ class ProfileController extends BaseController {
   }
 
   Future<void> changeAvatar() async {
-    // TODO: chưa có endpoint upload ảnh lên server — hiện tại chỉ lưu path
-    // ảnh local. Khi A làm endpoint upload (cloud storage), thay đoạn này
-    // bằng: upload file → lấy URL trả về → gán vào avatarUrl.
     try {
       final picker = ImagePicker();
       final picked = await picker.pickImage(

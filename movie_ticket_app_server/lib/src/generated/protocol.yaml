@@ -51,3 +51,4 @@ showtime:
 userProfile:
   - getMe:
   - updateMe:
+  - createMe:
